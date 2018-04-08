@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DBMain" Class="DataClassesDBMainDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DBMain.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DBMainConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Pergunta" Member="Perguntas">
+    <Type Name="Pergunta">
+      <Column Name="idPergunta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="texto" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="importancia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Pergunta_Pergunta_Quadrante" Member="Pergunta_Quadrantes" ThisKey="idPergunta" OtherKey="idPergunta" Type="Pergunta_Quadrante" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Utilizador" Member="Utilizadors">
+    <Type Name="Utilizador">
+      <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="estadoAutenticacao" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="dataRegisto" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="dataUltimaAutenticacao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="idTipoUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Utilizador_Tecnica" Member="Tecnicas" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Tecnica" />
+      <Association Name="Utilizador_Teste" Member="Testes" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Teste" />
+      <Association Name="TipoUtilizador_Utilizador" Member="TipoUtilizador" ThisKey="idTipoUtilizador" OtherKey="idTipoUtilizador" Type="TipoUtilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pergunta_Quadrante" Member="Pergunta_Quadrantes">
+    <Type Name="Pergunta_Quadrante">
+      <Column Name="idPergunta_Quadrante" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idPergunta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idQuadrante" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Pergunta_Quadrante_Pontuacao_Pergunta" Member="Pontuacao_Perguntas" ThisKey="idPergunta_Quadrante" OtherKey="idPergunta_Quadrante" Type="Pontuacao_Pergunta" />
+      <Association Name="Pergunta_Pergunta_Quadrante" Member="Pergunta" ThisKey="idPergunta" OtherKey="idPergunta" Type="Pergunta" IsForeignKey="true" />
+      <Association Name="Quadrante_Pergunta_Quadrante" Member="Quadrante" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Quadrante" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permissao" Member="Permissaos">
+    <Type Name="Permissao">
+      <Column Name="idPermissao" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="descricao" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Permissao_Permissao_TipoUtilizador" Member="Permissao_TipoUtilizadors" ThisKey="idPermissao" OtherKey="idPermissao" Type="Permissao_TipoUtilizador" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permissao_TipoUtilizador" Member="Permissao_TipoUtilizadors">
+    <Type Name="Permissao_TipoUtilizador">
+      <Column Name="idPermissao_TipoUtilizador" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idPermissao" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idTipoUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Permissao_Permissao_TipoUtilizador" Member="Permissao" ThisKey="idPermissao" OtherKey="idPermissao" Type="Permissao" IsForeignKey="true" />
+      <Association Name="TipoUtilizador_Permissao_TipoUtilizador" Member="TipoUtilizador" ThisKey="idTipoUtilizador" OtherKey="idTipoUtilizador" Type="TipoUtilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pontuacao_Pergunta" Member="Pontuacao_Perguntas">
+    <Type Name="Pontuacao_Pergunta">
+      <Column Name="idPontuacao_Pergunta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="valor" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="idPontuacao_Quadrante" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idPergunta_Quadrante" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Pergunta_Quadrante_Pontuacao_Pergunta" Member="Pergunta_Quadrante" ThisKey="idPergunta_Quadrante" OtherKey="idPergunta_Quadrante" Type="Pergunta_Quadrante" IsForeignKey="true" />
+      <Association Name="Pontuacao_Quadrante_Pontuacao_Pergunta" Member="Pontuacao_Quadrante" ThisKey="idPontuacao_Quadrante" OtherKey="idPontuacao_Quadrante" Type="Pontuacao_Quadrante" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pontuacao_Quadrante" Member="Pontuacao_Quadrantes">
+    <Type Name="Pontuacao_Quadrante">
+      <Column Name="idPontuacao_Quadrante" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="valor" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="idTeste" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idQuadrante_Tecnica" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Pontuacao_Quadrante_Pontuacao_Pergunta" Member="Pontuacao_Perguntas" ThisKey="idPontuacao_Quadrante" OtherKey="idPontuacao_Quadrante" Type="Pontuacao_Pergunta" />
+      <Association Name="Quadrante_Tecnica_Pontuacao_Quadrante" Member="Quadrante_Tecnica" ThisKey="idQuadrante_Tecnica" OtherKey="idQuadrante_Tecnica" Type="Quadrante_Tecnica" IsForeignKey="true" />
+      <Association Name="Teste_Pontuacao_Quadrante" Member="Teste" ThisKey="idTeste" OtherKey="idTeste" Type="Teste" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Quadrante" Member="Quadrantes">
+    <Type Name="Quadrante">
+      <Column Name="idQuadrante" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Quadrante_Pergunta_Quadrante" Member="Pergunta_Quadrantes" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Pergunta_Quadrante" />
+      <Association Name="Quadrante_Quadrante_Tecnica" Member="Quadrante_Tecnicas" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Quadrante_Tecnica" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Quadrante_Tecnica" Member="Quadrante_Tecnicas">
+    <Type Name="Quadrante_Tecnica">
+      <Column Name="idQuadrante_Tecnica" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idQuadrante" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idTecnica" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Quadrante_Tecnica_Pontuacao_Quadrante" Member="Pontuacao_Quadrantes" ThisKey="idQuadrante_Tecnica" OtherKey="idQuadrante_Tecnica" Type="Pontuacao_Quadrante" />
+      <Association Name="Quadrante_Quadrante_Tecnica" Member="Quadrante" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Quadrante" IsForeignKey="true" />
+      <Association Name="Tecnica_Quadrante_Tecnica" Member="Tecnica" ThisKey="idTecnica" OtherKey="idTecnica" Type="Tecnica" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tecnica" Member="Tecnicas">
+    <Type Name="Tecnica">
+      <Column Name="idTecnica" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Tecnica_Quadrante_Tecnica" Member="Quadrante_Tecnicas" ThisKey="idTecnica" OtherKey="idTecnica" Type="Quadrante_Tecnica" />
+      <Association Name="Tecnica_Teste" Member="Testes" ThisKey="idTecnica" OtherKey="idTecnica" Type="Teste" />
+      <Association Name="Utilizador_Tecnica" Member="Utilizador" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Utilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teste" Member="Testes">
+    <Type Name="Teste">
+      <Column Name="idTeste" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="dataRealizacao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="classificacao" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="grafico" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idTecnica" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Teste_Pontuacao_Quadrante" Member="Pontuacao_Quadrantes" ThisKey="idTeste" OtherKey="idTeste" Type="Pontuacao_Quadrante" />
+      <Association Name="Tecnica_Teste" Member="Tecnica" ThisKey="idTecnica" OtherKey="idTecnica" Type="Tecnica" IsForeignKey="true" />
+      <Association Name="Utilizador_Teste" Member="Utilizador" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Utilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoUtilizador" Member="TipoUtilizadors">
+    <Type Name="TipoUtilizador">
+      <Column Name="idTipoUtilizador" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="TipoUtilizador_Utilizador" Member="Utilizadors" ThisKey="idTipoUtilizador" OtherKey="idTipoUtilizador" Type="Utilizador" />
+      <Association Name="TipoUtilizador_Permissao_TipoUtilizador" Member="Permissao_TipoUtilizadors" ThisKey="idTipoUtilizador" OtherKey="idTipoUtilizador" Type="Permissao_TipoUtilizador" />
+    </Type>
+  </Table>
+</Database>
