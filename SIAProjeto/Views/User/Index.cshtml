@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SIAProjeto.Models.Teste>
+
+@{
+    ViewBag.Title = "Página Principal";
+}
+
+<h2>Testes Realizados</h2>
+
+<p>
+    @Html.ActionLink("Realizar Novo Teste", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dataRealizacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.classificacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idTecnica)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dataRealizacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.classificacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idTecnica)
+        </td>
+        <td>
+            @Html.ActionLink("Ver Detalhes", "Details", new { id=item.idTeste }) |
+            @Html.ActionLink("Eliminar Teste", "Delete", new { id=item.idTeste })
+        </td>
+    </tr>
+}
+
+</table>

@@ -42,12 +42,19 @@ namespace SIAProjeto.Controllers
                 Utilizador auxUtilizador = db.Utilizadors.SingleOrDefault(u => u.email == dadosLogin["email"] && u.password == dadosLogin["password"]);
 
                 //Se foi encontrada na base de dados uma e só uma correspondência, guarda o ID desse utilizador encontrado na sessão do browser
+                //Depois guarda também o ID do tipo desse utilizador
+                //Por fim atualiza o estado de autenticação e a data da última autenticação desse utilizador na base de dados
                 if (auxUtilizador != default(Utilizador))
                 {
                     Session["idUtilizadorAutenticado"] = auxUtilizador.idUtilizador;
+
+                    auxUtilizador.estadoAutenticacao = true;
+                    auxUtilizador.dataUltimaAutenticacao = DateTime.Now;
+
+                    db.SubmitChanges();
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "User");
             }
             else
             {
@@ -90,13 +97,13 @@ namespace SIAProjeto.Controllers
                 newUtilizador.password = dadosRegisto["password"];
 
                 newUtilizador.dataRegisto = DateTime.Now;
-                newUtilizador.idTipoUtilizador = 2;
+                newUtilizador.idTipoUtilizador = 1;
 
                 db.Utilizadors.InsertOnSubmit(newUtilizador);
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Registo");
+                return RedirectToAction("Index");
             }
             else
             {
