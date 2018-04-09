@@ -1,11 +1,10 @@
 ﻿@model SIAProjeto.Models.Utilizador
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Registo";
 }
 
 <h2>Registo</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -41,15 +40,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar Conta" class="btn btn-default" />
+                <input type="submit" value="Criar Conta" class="btn btn-block btn-primary" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Regressar à página de autenticação", "Index")
-</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

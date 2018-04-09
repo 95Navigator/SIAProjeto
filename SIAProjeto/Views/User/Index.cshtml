@@ -4,7 +4,8 @@
     ViewBag.Title = "Página Principal";
 }
 
-<h2>Testes Realizados</h2>
+<h2>Página Principal</h2>
+<h4>Testes Realizados</h4>
 
 <p>
     @Html.ActionLink("Realizar Novo Teste", "Create")
@@ -12,16 +13,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nome)
+            @Html.DisplayName("Nome")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dataRealizacao)
+            @Html.DisplayName("Data de Realização")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.classificacao)
+            @Html.DisplayName("Classificação")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.idTecnica)
+            @Html.DisplayName("Técnica")
         </th>
         <th></th>
     </tr>

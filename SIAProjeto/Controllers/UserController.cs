@@ -25,6 +25,50 @@ namespace SIAProjeto.Controllers
             return View(db.Testes.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
         }
 
+        public ActionResult Create()
+        {
+            ViewBag.selectListTecnica = new SelectList(db.Tecnicas.Select(t => t.nome).ToList());
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(FormCollection dadosTeste)
+        {
+            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+            if (string.IsNullOrEmpty(dadosTeste["nome"]) == true)
+            {
+                ModelState.AddModelError("nome", "Tem de introduzir o nome para o teste!");
+            }
+
+            if(string.IsNullOrEmpty(dadosTeste["idTecnica"]) == true)
+            {
+                ModelState.AddModelError("idTecnica", "Tem de seleccionar uma técnica para o teste!");
+            }
+
+            //Se os dados introduzidos estiverem válidos, cria e insere um novo teste na base de dados
+            if (ModelState.IsValid == true)
+            {
+                Teste newTeste = new Teste();
+
+                newTeste.nome = dadosTeste["nome"];
+                newTeste.idTecnica = Convert.ToInt32(dadosTeste["idTecnica"]);
+
+                newTeste.idUtilizador = Convert.ToInt32(Session["idUtilizadorAutenticado"]);
+                newTeste.dataRealizacao = DateTime.Now;               
+
+                db.Testes.InsertOnSubmit(newTeste);
+
+                db.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public ActionResult Logout()
         {
             //Limpa primeiro todos os dados guardados na sessão do browser
