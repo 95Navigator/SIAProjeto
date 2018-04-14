@@ -69,6 +69,11 @@ namespace SIAProjeto.Controllers
             }
         }
 
+        public ActionResult EditUtilizador()
+        {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             //Limpa primeiro todos os dados guardados na sessão do browser
