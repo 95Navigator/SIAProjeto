@@ -1,10 +1,10 @@
 ﻿@model SIAProjeto.Models.Utilizador
 
 @{
-    ViewBag.Title = "EditUtilizador";
+    ViewBag.Title = "Editar Dados Pessoais";
 }
 
-<h2>EditUtilizador</h2>
+<h2>Editar Dados Pessoais</h2>
 
 @using (Html.BeginForm())
 {
@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.idUtilizador)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Novo nome:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
@@ -25,15 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Nova palavra-passe:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
@@ -41,47 +33,13 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.estadoAutenticacao, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.estadoAutenticacao)
-                    @Html.ValidationMessageFor(model => model.estadoAutenticacao, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.dataRegisto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.dataRegisto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.dataRegisto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.dataUltimaAutenticacao, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.dataUltimaAutenticacao, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.dataUltimaAutenticacao, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idTipoUtilizador, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.idTipoUtilizador, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idTipoUtilizador, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Atualizar dados pessoais" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regressar", "Index")
 </div>

@@ -71,7 +71,40 @@ namespace SIAProjeto.Controllers
 
         public ActionResult EditUtilizador()
         {
-            return View();
+            return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
+        }
+
+        [HttpPost]
+        public ActionResult EditUtilizador(FormCollection dadosNovos)
+        {
+            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+            if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
+            {
+                ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
+            }
+
+            if (string.IsNullOrEmpty(dadosNovos["password"]) == true)
+            {
+                ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
+            }
+
+            //Se os dados introduzidos estiverem válidos, atualiza o utilizador autenticado com esses mesmos dados
+            //Depois submete as alterações na base de dados
+            if (ModelState.IsValid == true)
+            {
+                Utilizador editUtilizador = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"]));
+
+                editUtilizador.nome = dadosNovos["nome"];
+                editUtilizador.password = dadosNovos["password"];
+
+                db.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult Logout()
