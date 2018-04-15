@@ -240,6 +240,8 @@
     <Content Include="Views\Tecnicas\DetalhesTecnicas.cshtml" />
     <Content Include="Views\Tecnicas\DeleteTecnicas.cshtml" />
     <Content Include="Views\Tecnicas\NotFound.cshtml" />
+    <Content Include="Views\Tecnicas\ListQuadrantes.cshtml" />
+    <Content Include="Views\Tecnicas\ListPerguntas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

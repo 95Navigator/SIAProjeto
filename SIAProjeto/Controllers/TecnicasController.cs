@@ -39,44 +39,17 @@ namespace SIAProjeto.Controllers
         #region Tecnica
         public ActionResult CriarTecnica(FormCollection dadosNovos)
         {
-            bool aux = false;
-
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
             {
                 ModelState.AddModelError("nome", "Deve Introduzir um nome válido para a técnica");
             }
-
-            if (string.IsNullOrEmpty(dadosNovos["idTeste"]) == true)
-            {
-                ModelState.AddModelError("idTEste", "Deve Introduzir um teste válido para a técnica em uso!!");
-            }
-
-            //Pergunta 
-            if (string.IsNullOrEmpty(dadosNovos["texto"]) == true)
-            {
-                ModelState.AddModelError("texto", "Deve Introduzir um teste válido para a técnica em uso!!");
-            }
-
-            if (string.IsNullOrEmpty(dadosNovos["importancia"]) == true)
-            {
-                ModelState.AddModelError("importancia", "Deve Introduzir um teste válido para a técnica em uso!!");
-            }
-
-            //Quadrante 
-            if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
-            {
-                ModelState.AddModelError("nome", "Deve Introduzir um teste válido para a técnica em uso!!");
-            }
-
-            //se campos todos preenchidos o valor da tabela "FlsComplete" é alterao para "1"
-            if ((string.IsNullOrEmpty(dadosNovos["idTeste"]) == true) && (string.IsNullOrEmpty(dadosNovos["nome"]) == true))
-                aux = true;
-
+            
             if (ModelState.IsValid == true)
             {
                 Tecnica newTecnica = new Tecnica();
 
                 newTecnica.nome = dadosNovos["nome"];
+
                 //newTecnica.FlsComplete = dadosNovos["FlsComplete"]; 
                 //inser a "newTecnica" no conjunto de Dados na base de dados; 
                 db.Tecnicas.InsertOnSubmit(newTecnica);
@@ -89,7 +62,7 @@ namespace SIAProjeto.Controllers
                 return View();
             }
         }
-        public ActionResult EditarTecnica(int id)
+        public ActionResult EditarTecnica(int id, FormCollection dadosNovos)
         {
 
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
@@ -122,28 +95,52 @@ namespace SIAProjeto.Controllers
 
         public ActionResult DetalhesTecnicas(int id)
         {
-
             //retornar para a view a tecnica, cujo o id é "id"; 
-            return View();
+            return View(db.Tecnicas.Single(t=>t.idTecnica == id));
         }
 
-        public ActionResult DeleteTecnicas(FormCollection dadosNovos)
+        public ActionResult DeleteTecnicas(int idTecnica)
         {
+            return View(db.Tecnicas.Single(t=>t.idTecnica==idTecnica));
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult DeleteTecnica(FormCollection fake, int idTecnica)
+        {
+            db.Tecnicas.DeleteOnSubmit(db.Tecnicas.Single(t => t.idTecnica == idTecnica));
+            db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
+
+            return RedirectToAction("Index"); 
         }
         #endregion
 
-        public ActionResult ShowGrafico(FormCollection collection)
+        
+        /// <summary>
+        /// É criada uma lista de "Quadrante_Texnicas", a qual vai ser tornar numa coleção desse objeto da base de dados, 
+        /// Entretanto a lista de "Quadrante", repreenta uma linha da coleção aux
+        /// Ciclo foreach pega e para cada linha da coleção "aux", onde o id de "aux" é igual ao id de "qt" (linha da coleção), é acrescentado esse mesmo elemento/linha
+        /// por ultimoé retornada a Lista desses esmos quadrantes. 
+        /// </summary>
+        /// <param name="idTecnica"></param>
+        /// <returns></returns>
+
+        public ActionResult ListQuadrantes(int idTecnica)
         {
-            return null; 
+            List<Quadrante_Tecnica> aux = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == idTecnica).ToList();
+
+            List<Quadrante> aux2 = new List<Quadrante>();
+
+            foreach(Quadrante_Tecnica qt in aux)
+            {
+                aux2.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
+            }
+
+            return View(aux2);
         }
 
-        public ActionResult ListaPerguntas(FormCollection collection)
+        public ActionResult ListPerguntas(int idQuadrante)
         {
-
-
-            return null; 
+            return View();
         }
 
 
@@ -164,8 +161,13 @@ namespace SIAProjeto.Controllers
             return null; 
         }
 
+        public ActionResult DeletePergunta(int idPergunta)
+        {
+            return View(db.Perguntas.Single(p=>p.));
+        }
 
-        public ActionResult DeletePergunta(FormCollection dadosNovos)
+        [HttpPost]
+        public ActionResult DeletePergunta(FormCollection fake, int idPergunta)
         {
 
             return null; 
