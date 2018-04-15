@@ -235,6 +235,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\EditUtilizador.cshtml" />
+    <Content Include="Views\Tecnicas\Index.cshtml" />
+    <Content Include="Views\Tecnicas\EditarTecnica.cshtml" />
+    <Content Include="Views\Tecnicas\DetalhesTecnicas.cshtml" />
+    <Content Include="Views\Tecnicas\DeleteTecnicas.cshtml" />
+    <Content Include="Views\Tecnicas\NotFound.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -254,9 +259,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Tecnicas\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

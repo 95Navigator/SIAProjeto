@@ -8,6 +8,8 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    <label>Total Técnicas: </label> @ViewBag.TotalTecnicas
+    <label>Total Perguntas</label> @ViewBag.TotalPerguntas
 </p>
 <table class="table">
     <tr>
@@ -29,9 +31,9 @@
             @Html.DisplayFor(modelItem => item.idUtilizador)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idTecnica }) |
-            @Html.ActionLink("Details", "Details", new { id=item.idTecnica }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.idTecnica })
+            @Html.ActionLink("Edit", "EditarTecnica", new { id=item.idTecnica }) |
+            @Html.ActionLink("Details", "DetalhesTecnicas", new { id=item.idTecnica }) |
+            @Html.ActionLink("Delete", "DeleteTecnicas", new { id=item.idTecnica })
         </td>
     </tr>
 }
