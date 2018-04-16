@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TecnicasController.cs" />
+    <Compile Include="Controllers\TiposUtilizadorController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\LoginActionFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -233,8 +234,12 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\User\EditUtilizador.cshtml" />
+    <Content Include="Views\User\CreateTeste.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\TiposUtilizador\Index.cshtml" />
+    <Content Include="Views\TiposUtilizador\Create.cshtml" />
+    <Content Include="Views\TiposUtilizador\Delete.cshtml" />
+    <Content Include="Views\TiposUtilizador\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

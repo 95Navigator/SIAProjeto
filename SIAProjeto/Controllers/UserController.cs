@@ -12,7 +12,7 @@ namespace SIAProjeto.Controllers
     [LoginActionFilter]
     public class UserController : Controller
     {
-        DataClassesDBMainDataContext db;
+        private DataClassesDBMainDataContext db;
 
         public UserController()
         {
@@ -21,11 +21,47 @@ namespace SIAProjeto.Controllers
 
         public ActionResult Index()
         {
+            Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
+
+            ViewBag.nomeUtilizadorAutenticado = utilizadorAutenticado.nome;
+
             //Retorna para a view apenas os testes realizados pelo utilizador autenticado
-            return View(db.Testes.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
+            return View(db.Testes.Where(t => t.idUtilizador == utilizadorAutenticado.idUtilizador));
         }
 
-        public ActionResult Create()
+        public ActionResult Edit()
+        {
+            return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(FormCollection dadosNovos)
+        {
+            Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
+
+            if (string.IsNullOrEmpty(dadosNovos["nome"]) == false)
+            {
+                utilizadorAutenticado.nome = dadosNovos["nome"];
+            }
+
+            if (string.IsNullOrEmpty(dadosNovos["password"]) == false)
+            {
+                if (dadosNovos["password"].Length < 8)
+                {
+                    ModelState.AddModelError("password", "A palavra-passe introduzida tem que possuir mais de 8 caracteres!");
+                }
+                else
+                {
+                    utilizadorAutenticado.password = dadosNovos["password"];
+                }
+            }
+
+            db.SubmitChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CreateTeste()
         {
             ViewBag.selectListTecnica = new SelectList(db.Tecnicas.Select(t => t.nome).ToList());
 
@@ -33,7 +69,7 @@ namespace SIAProjeto.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(FormCollection dadosTeste)
+        public ActionResult CreateTeste(FormCollection dadosTeste)
         {
             //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
             if (string.IsNullOrEmpty(dadosTeste["nome"]) == true)
@@ -61,7 +97,7 @@ namespace SIAProjeto.Controllers
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("PerformTeste", new { id = newTeste.idTeste });
             }
             else
             {
@@ -69,42 +105,9 @@ namespace SIAProjeto.Controllers
             }
         }
 
-        public ActionResult EditUtilizador()
+        public ActionResult PerformTeste(int id)
         {
-            return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
-        }
-
-        [HttpPost]
-        public ActionResult EditUtilizador(FormCollection dadosNovos)
-        {
-            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
-            if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
-            {
-                ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
-            }
-
-            if (string.IsNullOrEmpty(dadosNovos["password"]) == true)
-            {
-                ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
-            }
-
-            //Se os dados introduzidos estiverem válidos, atualiza o utilizador autenticado com esses mesmos dados
-            //Depois submete as alterações na base de dados
-            if (ModelState.IsValid == true)
-            {
-                Utilizador editUtilizador = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"]));
-
-                editUtilizador.nome = dadosNovos["nome"];
-                editUtilizador.password = dadosNovos["password"];
-
-                db.SubmitChanges();
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public ActionResult Logout()
@@ -116,7 +119,7 @@ namespace SIAProjeto.Controllers
 
             //Aqui podemos aceder diretamente ao utilizador autenticado sem problemas
             //Isto porque o nosso LoginAcionFilter já verifica se algum ID se encontra presente na sessão do browser, e se esse ID é válido
-            db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).estadoAutenticacao = false;
+            db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])).estadoAutenticacao = false;
 
             db.SubmitChanges();
 

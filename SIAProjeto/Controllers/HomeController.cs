@@ -10,7 +10,7 @@ namespace SIAProjeto.Controllers
 {
     public class HomeController : Controller
     {
-        DataClassesDBMainDataContext db;
+        private DataClassesDBMainDataContext db;
 
         public HomeController()
         {
@@ -84,6 +84,13 @@ namespace SIAProjeto.Controllers
             if(string.IsNullOrEmpty(dadosRegisto["password"]) == true)
             {
                 ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
+            }
+            else
+            {
+                if(dadosRegisto["password"].Length < 8)
+                {
+                    ModelState.AddModelError("password", "A palavra-passe introduzida tem que possuir mais de 8 caracteres!");
+                }
             }
 
             //Se os dados introduzidos estiverem válidos, cria um novo utilizador com esses mesmos dados

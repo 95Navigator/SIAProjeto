@@ -1,0 +1,32 @@
+﻿@model SIAProjeto.Models.TipoUtilizador
+
+@{
+    ViewBag.Title = "Eliminar Tipo de Utilizador";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Tem a certeza que deseja eliminar este item?</h3>
+<div>
+    <h4>Tipo de Utilizador</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nome
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nome)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regressar", "Index")
+        </div>
+    }
+</div>
