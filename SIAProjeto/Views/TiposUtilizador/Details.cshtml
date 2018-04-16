@@ -1,4 +1,4 @@
-﻿@model SIAProjeto.Models.TipoUtilizador
+﻿@model SIAProjeto.ViewModels.TiposUtilizadorViewModel
 
 @{
     ViewBag.Title = "Detalhes do Tipo de Utilizador";
@@ -15,12 +15,39 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.nome)
+            @Html.DisplayFor(model => model.TipoUtilizador.nome)
         </dd>
 
     </dl>
+
+    <h4>Permissões concedidas</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Nome")
+            </th>
+            <th>
+                @Html.DisplayName("Descrição")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.PermissoesList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descricao)
+                </td>
+            </tr>
+        }
+
+    </table>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.idTipoUtilizador }) |
+    @Html.ActionLink("Editar", "Edit", new { id = Model.TipoUtilizador.idTipoUtilizador }) |
     @Html.ActionLink("Regressar", "Index")
 </p>
