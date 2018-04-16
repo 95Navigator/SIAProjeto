@@ -39,6 +39,7 @@ namespace SIAProjeto.Controllers
         #region Tecnica
         public ActionResult CriarTecnica(FormCollection dadosNovos)
         {
+            //Falta: seleccioncar um quadrante  já feito com perguntas 
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
             {
                 ModelState.AddModelError("nome", "Deve Introduzir um nome válido para a técnica");
@@ -55,6 +56,9 @@ namespace SIAProjeto.Controllers
                 db.Tecnicas.InsertOnSubmit(newTecnica);
                 db.SubmitChanges();
 
+                Quadrante newQuadrante = new Quadrante();
+
+                //db.Quadrantes.Select(Func<Quadrante, idquadrante>);
                 return RedirectToAction("Index");
             }
             else
@@ -113,7 +117,6 @@ namespace SIAProjeto.Controllers
             return RedirectToAction("Index"); 
         }
         #endregion
-
         
         /// <summary>
         /// É criada uma lista de "Quadrante_Texnicas", a qual vai ser tornar numa coleção desse objeto da base de dados, 
@@ -140,20 +143,28 @@ namespace SIAProjeto.Controllers
 
         public ActionResult ListPerguntas(int idQuadrante)
         {
-            return View();
+            List<Pergunta_Quadrante> aux = db.Pergunta_Quadrantes.Where(pq => pq.idPergunta_Quadrante == idQuadrante).ToList();
+
+            List<Pergunta> aux2 = new List<Pergunta>();
+
+            foreach (Pergunta_Quadrante pq in aux)
+            {
+                aux2.Add(db.Perguntas.Single(p=pq.idPergunta == pq.idPergunta));
+            }
+
+            return View(aux2);
         }
 
-
-  #region Pergunta 
+        #region Pergunta 
         public ActionResult CriarPergunra(FormCollection dadosNovos)
         {
             //criação de nova pergunta; 
             return null; 
         }
-        public ActionResult EditarPergunta(FormCollection dadosNovos)
+        public ActionResult EditarPergunta(FormCollection dadosNovos, int id)
         {
+            return View(db.Perguntas.Single(p => p.idPergunta == id));
 
-            return null;
         }
         public ActionResult DetalhesPergunta(FormCollection dadosNovos)
         {
@@ -169,8 +180,10 @@ namespace SIAProjeto.Controllers
         [HttpPost]
         public ActionResult DeletePergunta(FormCollection fake, int idPergunta)
         {
+            db.Perguntas.DeleteOnSubmit(db.Perguntas.Single(p => p.idPergunta == idPergunta));
+            db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
 
-            return null; 
+            return RedirectToAction("Index");
         }
         #endregion
 
@@ -180,23 +193,27 @@ namespace SIAProjeto.Controllers
             //criação de nova pergunta; 
             return null;
         }
-        public ActionResult EditarQuadrante(FormCollection dadosNovos)
+        public ActionResult EditarQuadrante(FormCollection dadosNovos, int id)
         {
-
-            return null;
+            return View(db.Quadrantes.Single(q=>q.idQuadrante==id));
         }
-        public ActionResult DetalhesQuadrante(FormCollection dadosNovos)
+        public ActionResult DetalhesQuadrante(int idQuadrante)
         {
             //detalhes de nova pergunta; 
-            return null;
+            return View(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
         }
 
-
-        public ActionResult DeleteQuadrante(FormCollection dadosNovos)
+        [HttpPost]
+        public ActionResult DeleteQuadrante(FormCollection fake, int idQuadrante)
         {
+            db.Quadrantes.DeleteOnSubmit(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
+            db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
 
-            return null;
+            return RedirectToAction("Index");
+
         }
+
+    
         #endregion
 
 
