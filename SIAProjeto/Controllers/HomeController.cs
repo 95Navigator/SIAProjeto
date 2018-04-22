@@ -8,6 +8,7 @@ using SIAProjeto.Models;
 
 namespace SIAProjeto.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         DataClassesDBMainDataContext db;

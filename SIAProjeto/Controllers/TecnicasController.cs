@@ -39,7 +39,11 @@ namespace SIAProjeto.Controllers
         #region Tecnica
         public ActionResult CriarTecnica(FormCollection dadosNovos)
         {
+
+
+
             //Falta: seleccioncar um quadrante  já feito com perguntas 
+            //id selecionado no fropdown já aqui vem; 
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
             {
                 ModelState.AddModelError("nome", "Deve Introduzir um nome válido para a técnica");
@@ -66,15 +70,16 @@ namespace SIAProjeto.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
         public ActionResult EditarTecnica(int id, FormCollection dadosNovos)
         {
-
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
             {
                 ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
             }
 
-            if (string.IsNullOrEmpty(dadosNovos["FlsComplete"]) == true)
+            if (string.IsNullOrEmpty(dadosNovos["FlsComplete"]) == false)
             {
                 ModelState.AddModelError("FlsComplete", "Algum campo está em falta!");
             }
@@ -99,12 +104,17 @@ namespace SIAProjeto.Controllers
 
         public ActionResult DetalhesTecnicas(int id)
         {
+            //apresenta o ecra dos quadrantes com um botao para listar as perguntas 
             //retornar para a view a tecnica, cujo o id é "id"; 
             return View(db.Tecnicas.Single(t=>t.idTecnica == id));
         }
 
+
+        // qual diferença entre dois ??? 
         public ActionResult DeleteTecnicas(int idTecnica)
         {
+            // apagar apenas a ténica, não apagar quadrantes nem perguntas associadas
+            //não apaga pergunta nem quadrante, apenas a técnica 
             return View(db.Tecnicas.Single(t=>t.idTecnica==idTecnica));
         }
 
@@ -149,7 +159,7 @@ namespace SIAProjeto.Controllers
 
             foreach (Pergunta_Quadrante pq in aux)
             {
-                aux2.Add(db.Perguntas.Single(p=pq.idPergunta == pq.idPergunta));
+                aux2.Add(db.Perguntas.Single(p=>pq.idPergunta == pq.idPergunta));
             }
 
             return View(aux2);
@@ -159,6 +169,7 @@ namespace SIAProjeto.Controllers
         public ActionResult CriarPergunra(FormCollection dadosNovos)
         {
             //criação de nova pergunta; 
+            //fica criada uma pullde perguntas e pull de quadrantes 
             return null; 
         }
         public ActionResult EditarPergunta(FormCollection dadosNovos, int id)
@@ -172,10 +183,10 @@ namespace SIAProjeto.Controllers
             return null; 
         }
 
-        public ActionResult DeletePergunta(int idPergunta)
-        {
-            return View(db.Perguntas.Single(p=>p.));
-        }
+        //public ActionResult DeletePergunta(int idPergunta)
+        //{
+        //    //return View(db.Perguntas.Single(p=>p.));
+        //}
 
         [HttpPost]
         public ActionResult DeletePergunta(FormCollection fake, int idPergunta)
