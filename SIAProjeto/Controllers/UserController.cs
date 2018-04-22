@@ -88,7 +88,7 @@ namespace SIAProjeto.Controllers
                 Teste newTeste = new Teste();
 
                 newTeste.nome = dadosTeste["nome"];
-                newTeste.idTecnica = Convert.ToInt32(dadosTeste["idTecnica"]);
+                newTeste.idTecnica = db.Tecnicas.Single(t => t.nome == dadosTeste["idTecnica"]).idTecnica;
 
                 newTeste.idUtilizador = Convert.ToInt32(Session["idUtilizadorAutenticado"]);
                 newTeste.dataRealizacao = DateTime.Now;               

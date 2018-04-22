@@ -19,47 +19,80 @@ namespace SIAProjeto.Controllers
 
         public ActionResult Index()
         {
+            if(Session["loginTentativas"] == null)
+            {
+                Session["loginTentativas"] = 5;
+            }
+
+            if(Session["loginDateTimeBloqueio"] != null)
+            {
+                if(Convert.ToDateTime(Session["loginDateTimeBloqueio"]))
+                {
+                    
+                }
+                else
+                {
+
+                }
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Index(FormCollection dadosLogin)
         {
-            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
-            if (string.IsNullOrEmpty(dadosLogin["email"]) == true)
+            if(Convert.ToInt32(Session["loginTentativas"]) > 0)
             {
-                ModelState.AddModelError("email", "Introduza o seu e-mail!");
-            }
-
-            if (string.IsNullOrEmpty(dadosLogin["password"]) == true)
-            {
-                ModelState.AddModelError("password", "Introduza a sua palavra-passe!");
-            }
-
-            //Se os dados introduzidos estiverem válidos, procura um utilizador que possua o e-mail e a palavra-passe introduzidas
-            if (ModelState.IsValid == true)
-            {
-                Utilizador auxUtilizador = db.Utilizadors.SingleOrDefault(u => u.email == dadosLogin["email"] && u.password == dadosLogin["password"]);
-
-                //Se foi encontrada na base de dados uma e só uma correspondência, guarda o ID desse utilizador encontrado na sessão do browser
-                //Depois guarda também o ID do tipo desse utilizador
-                //Por fim atualiza o estado de autenticação e a data da última autenticação desse utilizador na base de dados
-                if (auxUtilizador != default(Utilizador))
+                //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+                if (string.IsNullOrEmpty(dadosLogin["email"]) == true)
                 {
-                    Session["idUtilizadorAutenticado"] = auxUtilizador.idUtilizador;
-
-                    auxUtilizador.estadoAutenticacao = true;
-                    auxUtilizador.dataUltimaAutenticacao = DateTime.Now;
-
-                    db.SubmitChanges();
+                    ModelState.AddModelError("email", "Introduza o seu e-mail!");
                 }
 
-                return RedirectToAction("Index", "User");
+                if (string.IsNullOrEmpty(dadosLogin["password"]) == true)
+                {
+                    ModelState.AddModelError("password", "Introduza a sua palavra-passe!");
+                }
+
+                //Se os dados introduzidos estiverem válidos, procura um utilizador que possua o e-mail e a palavra-passe introduzidas
+                if (ModelState.IsValid == true)
+                {
+                    Utilizador auxUtilizador = db.Utilizadors.SingleOrDefault(u => u.email == dadosLogin["email"] && u.password == dadosLogin["password"]);
+
+                    //Se foi encontrada na base de dados uma e só uma correspondência, guarda o ID desse utilizador encontrado na sessão do browser
+                    //Depois guarda também o ID do tipo desse utilizador
+                    //Por fim atualiza o estado de autenticação e a data da última autenticação desse utilizador na base de dados
+                    if (auxUtilizador != default(Utilizador))
+                    {
+                        Session["idUtilizadorAutenticado"] = auxUtilizador.idUtilizador;
+
+                        auxUtilizador.estadoAutenticacao = true;
+                        auxUtilizador.dataUltimaAutenticacao = DateTime.Now;
+
+                        db.SubmitChanges();
+
+                        return RedirectToAction("Index", "User");
+                    }
+                    else
+                    {
+                        //Se não for encontrada nenhuma correspondência, significa que o utilizador enganou-se nas credenciais e o login falhou
+                        //Logo retira uma tentativa do contador de tentativas de login falhadas
+                        Session["loginTentativas"] = Convert.ToInt32(Session["loginTentativas"]) - 1;
+
+                        ModelState.AddModelError("email", "Introduziu uma combinação incorreta! Possui agora " + Session["loginTentativas"] + " tentativas de autenticação restantes.");
+                    }
+                }
             }
             else
             {
-                return View();
+                //Se o utilizador atingiu as cinco tentativas de login falhadas, bloqueia as caixas de texto por cinco minutos
+                Session["loginDateTimeBloqueio"] = DateTime.Now;
+
+                ModelState.AddModelError("email", "Esgotou o número de tentativas de autenticação! Encontra-se agora bloqueado do sistema.");
             }
+
+            return View();
         }
 
         public ActionResult Registo()
