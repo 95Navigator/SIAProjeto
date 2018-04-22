@@ -11,7 +11,7 @@ namespace SIAProjeto.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        DataClassesDBMainDataContext db;
+        private DataClassesDBMainDataContext db;
 
         public HomeController()
         {
@@ -81,10 +81,24 @@ namespace SIAProjeto.Controllers
             {
                 ModelState.AddModelError("email", "Tem que preencher o campo do e-mail!");
             }
+            else
+            {
+                if(db.Utilizadors.SingleOrDefault(u => u.email == dadosRegisto["email"]) != default(Utilizador))
+                {
+                    ModelState.AddModelError("email", "Um utilizador com este e-mail já se encontra registado!");
+                }
+            }
 
             if(string.IsNullOrEmpty(dadosRegisto["password"]) == true)
             {
                 ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
+            }
+            else
+            {
+                if(dadosRegisto["password"].Length < 8)
+                {
+                    ModelState.AddModelError("password", "A palavra-passe introduzida tem que possuir mais de 8 caracteres!");
+                }
             }
 
             //Se os dados introduzidos estiverem válidos, cria um novo utilizador com esses mesmos dados
