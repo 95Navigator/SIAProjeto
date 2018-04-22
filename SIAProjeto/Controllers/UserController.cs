@@ -77,8 +77,9 @@ namespace SIAProjeto.Controllers
                 ModelState.AddModelError("nome", "Tem de introduzir o nome para o teste!");
             }
 
-            if(string.IsNullOrEmpty(dadosTeste["idTecnica"]) == true)
+            if (string.IsNullOrEmpty(dadosTeste["idTecnica"]) == true)
             {
+                
                 ModelState.AddModelError("idTecnica", "Tem de seleccionar uma técnica para o teste!");
             }
 
