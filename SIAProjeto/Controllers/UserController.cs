@@ -9,6 +9,7 @@ using SIAProjeto.Models;
 
 namespace SIAProjeto.Controllers
 {
+    [RequireHttps]
     [LoginActionFilter]
     public class UserController : Controller
     {

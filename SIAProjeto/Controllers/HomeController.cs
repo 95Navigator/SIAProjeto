@@ -8,7 +8,7 @@ using SIAProjeto.Models;
 
 namespace SIAProjeto.Controllers
 {
-    [Authorize]
+    [RequireHttps]
     public class HomeController : Controller
     {
         private DataClassesDBMainDataContext db;
@@ -20,20 +20,24 @@ namespace SIAProjeto.Controllers
 
         public ActionResult Index()
         {
-            if(Session["loginTentativas"] == null)
+            ViewBag.isUtilizadorBloqueado = false;
+
+            //Define na sessão, se ainda não estiver definido, o número possível de tentativas falhadas de autenticação
+            if (Session["loginTentativas"] == null)
             {
                 Session["loginTentativas"] = 5;
             }
 
+            //Se esta variável de sessão já se encontrar definida, significa que o utilizador foi bloquado do sistema de autenticação e que os cinco minutos já estão a contar
             if(Session["loginDateTimeBloqueio"] != null)
             {
-                if(Convert.ToDateTime(Session["loginDateTimeBloqueio"]))
-                {
-                    
-                }
-                else
-                {
+                //Obtém a diferença entre o momento atual e o momento em que o sistema de autenticação foi bloqueado
+                TimeSpan loginTimeSpanBloqueio = DateTime.Now.Subtract(Convert.ToDateTime(Session["loginDateTimeBloqueio"]));
 
+                //Se essa diferença for igual ou exceder os cinco minutos, então o sistema de autenticação já pode ser desbloqueado
+                if (loginTimeSpanBloqueio.Minutes >= 5)
+                {
+                    ViewBag.isUtilizadorBloqueado = true;
                 }
             }
 
@@ -43,7 +47,8 @@ namespace SIAProjeto.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection dadosLogin)
         {
-            if(Convert.ToInt32(Session["loginTentativas"]) > 0)
+            //Enquanto o utilizador não ultrapassar as suas tentativas, a autenticação é permitida
+            if(Convert.ToInt32(Session["loginTentativas"]) != 1)
             {
                 //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
                 if (string.IsNullOrEmpty(dadosLogin["email"]) == true)
@@ -90,7 +95,7 @@ namespace SIAProjeto.Controllers
                 //Se o utilizador atingiu as cinco tentativas de login falhadas, bloqueia as caixas de texto por cinco minutos
                 Session["loginDateTimeBloqueio"] = DateTime.Now;
 
-                ModelState.AddModelError("email", "Esgotou o número de tentativas de autenticação! Encontra-se agora bloqueado do sistema.");
+                ViewBag.isUtilizadorBloqueado = true;
             }
 
             return View();

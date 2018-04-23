@@ -10,6 +10,7 @@ using SIAProjeto.ViewModels;
 
 namespace SIAProjeto.Controllers
 {
+    [RequireHttps]
     [LoginActionFilter]
     [TiposUtilizadorPermissaoActionFilter]
     public class TiposUtilizadorController : Controller
@@ -198,6 +199,11 @@ namespace SIAProjeto.Controllers
         [HttpPost]
         public ActionResult Delete(FormCollection dummy, int id)
         {
+            //Primeiro verifica se este tipo de utilizador possui permissões associadas a ele
+            //Se possuir, apaga essas mesmas relações
+            db.Permissao_TipoUtilizadors.DeleteAllOnSubmit(db.Permissao_TipoUtilizadors.Where(pt => pt.idTipoUtilizador == id));
+
+            //Depois de todas as relações apagadas, elimina o próprio tipo de utilizador
             db.TipoUtilizadors.DeleteOnSubmit(db.TipoUtilizadors.Single(t => t.idTipoUtilizador == id));
 
             db.SubmitChanges();
