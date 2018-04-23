@@ -4,48 +4,60 @@
     ViewBag.Title = "Página Principal";
 }
 
-<h2>Bem Vindo, @ViewBag.nomeUtilizadorAutenticado</h2>
-<h4>Testes Realizados</h4>
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Bem Vindo, @ViewBag.nomeUtilizadorAutenticado</h4>
+    </div>
+</div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Nome")
-        </th>
-        <th>
-            @Html.DisplayName("Data de Realização")
-        </th>
-        <th>
-            @Html.DisplayName("Classificação")
-        </th>
-        <th>
-            @Html.DisplayName("Técnica")
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dataRealizacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.classificacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idTecnica)
-        </td>
-        <td>
-            @Html.ActionLink("Ver Detalhes", "Details", new { id=item.idTeste }) |
-            @Html.ActionLink("Eliminar Teste", "Delete", new { id=item.idTeste })
-        </td>
-    </tr>
-}
-
-</table>
-<p>
-    @Html.ActionLink("Realizar Novo Teste", "CreateTeste")
-</p>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Testes Realizados</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Data de Realização")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Classificação")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Técnica")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dataRealizacao)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.classificacao)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.idTecnica)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Ver Detalhes", "Details", new { id = item.idTeste }) |
+                                    @Html.ActionLink("Eliminar Teste", "Delete", new { id = item.idTeste })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

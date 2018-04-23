@@ -134,7 +134,7 @@ namespace SIAProjeto.Controllers
             else
             {
                 //Se o nome do tipo de utilizador introduzido não for igual ao que estava, mas se já existe um tipo de utilizador com o novo nome introduzido, retorna erro
-                if (editTipoUtilizador.nome == dadosTipoUtilizador["nome"] && db.TipoUtilizadors.SingleOrDefault(t => t.nome == dadosTipoUtilizador["nome"]) != default(TipoUtilizador))
+                if (editTipoUtilizador.nome != dadosTipoUtilizador["nome"] && db.TipoUtilizadors.SingleOrDefault(t => t.nome == dadosTipoUtilizador["nome"]) != default(TipoUtilizador))
                 {
                     ModelState.AddModelError("nome", "Um tipo de utilizador com este nome já se encontra criado!");
                 }

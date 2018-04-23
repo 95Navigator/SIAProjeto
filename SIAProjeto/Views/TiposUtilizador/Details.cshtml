@@ -4,50 +4,53 @@
     ViewBag.Title = "Detalhes do Tipo de Utilizador";
 }
 
-<h2>Detalhes</h2>
-
-<div>
-    <h4>Tipo de Utilizador</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Nome
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoUtilizador.nome)
-        </dd>
-
-    </dl>
-
-    <h4>Permissões concedidas</h4>
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("Nome")
-            </th>
-            <th>
-                @Html.DisplayName("Descrição")
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.PermissoesList)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.descricao)
-                </td>
-            </tr>
-        }
-
-    </table>
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Detalhes do Tipo de Utilizador</h4>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.TipoUtilizador.idTipoUtilizador }) |
-    @Html.ActionLink("Regressar", "Index")
-</p>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">Nome</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.TipoUtilizador.nome)
+                    </div>
+                </div>
+
+                <h3 class="box-title">Permissões Concedidas</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Nome")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Descrição")
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PermissoesList)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.descricao)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

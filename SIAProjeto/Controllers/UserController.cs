@@ -38,28 +38,41 @@ namespace SIAProjeto.Controllers
         [HttpPost]
         public ActionResult Edit(FormCollection dadosNovos)
         {
-            Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
-
-            if (string.IsNullOrEmpty(dadosNovos["nome"]) == false)
+            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+            if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
             {
-                utilizadorAutenticado.nome = dadosNovos["nome"];
+                ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
             }
 
-            if (string.IsNullOrEmpty(dadosNovos["password"]) == false)
+            if (string.IsNullOrEmpty(dadosNovos["password"]) == true)
             {
-                if (dadosNovos["password"].Length < 8)
+                ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
+            }
+            else
+            {
+                if(dadosNovos["password"].Length < 8)
                 {
                     ModelState.AddModelError("password", "A palavra-passe introduzida tem que possuir mais de 8 caracteres!");
                 }
-                else
-                {
-                    utilizadorAutenticado.password = dadosNovos["password"];
-                }
             }
 
-            db.SubmitChanges();
+            //Se os dados introduzidos estiverem válidos, obtém o utilizador autenticado a partir do seu respetivo ID guardado na sessão
+            //Depois de associar os novos dados introduzidos a esse utiizador, submete as mudanças na base de dados
+            if (ModelState.IsValid == true)
+            {
+                Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
 
-            return RedirectToAction("Index");
+                utilizadorAutenticado.nome = dadosNovos["nome"];
+                utilizadorAutenticado.password = dadosNovos["password"];
+
+                db.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])));
+            }
         }
 
         public ActionResult CreateTeste()
