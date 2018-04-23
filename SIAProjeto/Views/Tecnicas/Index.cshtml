@@ -1,23 +1,27 @@
 ﻿@model IEnumerable<SIAProjeto.Models.Tecnica>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Gestor de Técnicas";
 }
 
-<h2>Index</h2>
+<h2>Gestor de Técnicas</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-    <label>Total Técnicas: </label> @ViewBag.TotalTecnicas
-    <label>Total Perguntas</label> @ViewBag.TotalPerguntas
+    @Html.ActionLink("Criar Nova Técnica", "Create")
+</p>
+<p>
+    Total de Técnicas Criadas: @ViewBag.TotalTecnicas
+</p>
+<p>
+    Total de Quadrantes Criados: @ViewBag.TotalQuadrantes
+</p>
+<p>
+    Total de Perguntas Criadas: @ViewBag.TotalPerguntas
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.idUtilizador)
+            @Html.DisplayName("Nome")
         </th>
         <th></th>
     </tr>
@@ -28,12 +32,9 @@
             @Html.DisplayFor(modelItem => item.nome)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.idUtilizador)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "EditarTecnica", new { id=item.idTecnica }) |
-            @Html.ActionLink("Details", "DetalhesTecnicas", new { id=item.idTecnica }) |
-            @Html.ActionLink("Delete", "DeleteTecnicas", new { id=item.idTecnica })
+            @Html.ActionLink("Editar Técnica", "EditarTecnica", new { id=item.idTecnica }) |
+            @Html.ActionLink("Detalhes da Técnica", "DetalhesTecnicas", new { id=item.idTecnica }) |
+            @Html.ActionLink("Eliminar Técnica", "DeleteTecnicas", new { id=item.idTecnica })
         </td>
     </tr>
 }

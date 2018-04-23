@@ -1,40 +1,31 @@
 ﻿@model SIAProjeto.Models.Tecnica
 
 @{
-    ViewBag.Title = "DeleteTecnicas";
+    ViewBag.Title = "Eliminar Técnica";
 }
 
-<h2>DeleteTecnicas</h2>
+<h2>Eliminar</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem a certeza que deseja eliminar este item?</h3>
 <div>
-    <h4>Tecnica</h4>
+    <h4>Técnica</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.nome)
+            @Html.DisplayName("Nome:")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.nome)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.idUtilizador)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.idUtilizador)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regressar", "Index")
         </div>
     }
 </div>

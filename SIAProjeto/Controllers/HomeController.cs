@@ -34,8 +34,9 @@ namespace SIAProjeto.Controllers
                 //Obtém a diferença entre o momento atual e o momento em que o sistema de autenticação foi bloqueado
                 TimeSpan loginTimeSpanBloqueio = DateTime.Now.Subtract(Convert.ToDateTime(Session["loginDateTimeBloqueio"]));
 
+                //Se essa diferença for inferior a cinco minutos, então o sistema de autenticação deve continuar bloqueado
                 //Se essa diferença for igual ou exceder os cinco minutos, então o sistema de autenticação já pode ser desbloqueado
-                if (loginTimeSpanBloqueio.Minutes >= 5)
+                if (loginTimeSpanBloqueio.Minutes < 5)
                 {
                     ViewBag.isUtilizadorBloqueado = true;
                 }

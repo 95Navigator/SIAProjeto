@@ -1,10 +1,11 @@
-﻿using SIAProjeto.Filters;
-using SIAProjeto.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
+using SIAProjeto.Filters;
+using SIAProjeto.Models;
 
 namespace SIAProjeto.Controllers
 {
@@ -13,7 +14,9 @@ namespace SIAProjeto.Controllers
     /// 
     /// </summary>
     /// <returns></returns>
+    [RequireHttps]
     [LoginActionFilter] // Não deica que um utilizador não autenticado, aceda a este Controlador; 
+    [TecnicasPermissaoActionFilter]
     public class TecnicasController : Controller
     {
         DataClassesDBMainDataContext db;
@@ -31,17 +34,19 @@ namespace SIAProjeto.Controllers
             ViewBag.TotalTecnicas = db.Tecnicas.Count();
             ViewBag.TotalPerguntas = db.Perguntas.Count(); 
             ViewBag.TotalQuadrantes = db.Quadrantes.Count();
+
             return View(db.Tecnicas.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
         }
 
-        [HttpPost]
-
         #region Tecnica
+        public ActionResult CriarTecnica()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult CriarTecnica(FormCollection dadosNovos)
         {
-
-
-
             //Falta: seleccioncar um quadrante  já feito com perguntas 
             //id selecionado no fropdown já aqui vem; 
             if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
@@ -69,6 +74,11 @@ namespace SIAProjeto.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult EditarTecnica(int id)
+        {
+            return View(db.Tecnicas.Single(t => t.idTecnica == id));
         }
 
         [HttpPost]
@@ -109,19 +119,18 @@ namespace SIAProjeto.Controllers
             return View(db.Tecnicas.Single(t=>t.idTecnica == id));
         }
 
-
-        // qual diferença entre dois ??? 
         public ActionResult DeleteTecnicas(int idTecnica)
         {
             // apagar apenas a ténica, não apagar quadrantes nem perguntas associadas
             //não apaga pergunta nem quadrante, apenas a técnica 
-            return View(db.Tecnicas.Single(t=>t.idTecnica==idTecnica));
+            return View(db.Tecnicas.Single(t => t.idTecnica == idTecnica));
         }
 
         [HttpPost]
         public ActionResult DeleteTecnica(FormCollection fake, int idTecnica)
         {
             db.Tecnicas.DeleteOnSubmit(db.Tecnicas.Single(t => t.idTecnica == idTecnica));
+
             db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
 
             return RedirectToAction("Index"); 
@@ -226,7 +235,5 @@ namespace SIAProjeto.Controllers
 
     
         #endregion
-
-
     }
 }
