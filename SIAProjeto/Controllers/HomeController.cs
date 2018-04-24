@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using System.Net.Mail;
+
 using SIAProjeto.Models;
 
 namespace SIAProjeto.Controllers
@@ -157,12 +159,46 @@ namespace SIAProjeto.Controllers
 
                 db.SubmitChanges();
 
+                //Envia um e-mail de confirmação para o e-mail do novo Utilizador
+                SmtpClient confirmEmailClient = new SmtpClient("smtp.gmail.com");
+
+                MailMessage confirmEmail = new MailMessage();
+
+                //Configura o cliente SMTP do Gmail
+                confirmEmailClient.Port = 587;
+                confirmEmailClient.UseDefaultCredentials = false;
+                confirmEmailClient.Credentials = new System.Net.NetworkCredential("", "");
+                confirmEmailClient.EnableSsl = true;
+
+                confirmEmail.From = new MailAddress("", "");
+                confirmEmail.To.Add(new MailAddress(newUtilizador.email));
+                confirmEmail.Subject = "E-mail de confirmação de novo Utilizador";
+                confirmEmail.IsBodyHtml = true;
+
+                confirmEmail.Body = System.IO.File.ReadAllText(Server.MapPath(@"\Assets\ActivateUserMailHtml.html"));
+                confirmEmail.Body = confirmEmail.Body.Replace("@id", newUtilizador.idUtilizador.ToString());
+
+                confirmEmailClient.Send(confirmEmail);
+
                 return RedirectToAction("Index");
             }
             else
             {
                 return View();
             }
+        }
+
+        public ActionResult AtivarRegisto(int id)
+        {
+            //Ativa a conta do novo utilizador, mudando o seu estado de ativação para true
+            Utilizador newUtilizador = db.Utilizadors.Single(u => u.idUtilizador == id);
+
+            newUtilizador.estadoAtivacao = true;
+
+            //Submete esta mudança na base de dados
+            db.SubmitChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

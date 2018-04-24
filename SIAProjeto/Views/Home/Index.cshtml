@@ -41,11 +41,11 @@
                         <div class="col-md-12">
                             @if (Convert.ToBoolean(ViewBag.isUtilizadorBloqueado) == true)
                             {
-                                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line", disabled = true } });
+                                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line", type = "password", disabled = true } });
                             }
                             else
                             {
-                                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line" } });
+                                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line", type = "password" } });
                             }
                             @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                         </div>

@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label class="col-md-12">Nova Palavra-Passe</label>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control form-control-line", type = "password" } })
                             @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                         </div>
                     </div>

@@ -14,6 +14,7 @@
       <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="password" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="estadoAtivacao" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="estadoAutenticacao" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="dataRegisto" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="dataUltimaAutenticacao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -93,6 +94,7 @@
     <Type Name="Tecnica">
       <Column Name="idTecnica" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="dataCriacao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Tecnica_Quadrante_Tecnica" Member="Quadrante_Tecnicas" ThisKey="idTecnica" OtherKey="idTecnica" Type="Quadrante_Tecnica" />
       <Association Name="Tecnica_Teste" Member="Testes" ThisKey="idTecnica" OtherKey="idTecnica" Type="Teste" />

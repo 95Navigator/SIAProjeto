@@ -4,39 +4,93 @@
     ViewBag.Title = "Gestor de Técnicas";
 }
 
-<h2>Gestor de Técnicas</h2>
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Gestor de Técnicas</h4>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Criar Nova Técnica", "Create")
-</p>
-<p>
-    Total de Técnicas Criadas: @ViewBag.TotalTecnicas
-</p>
-<p>
-    Total de Quadrantes Criados: @ViewBag.TotalQuadrantes
-</p>
-<p>
-    Total de Perguntas Criadas: @ViewBag.TotalPerguntas
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Nome")
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total de Técnicas Criadas</h3>
+            <ul class="list-inline two-part">
+                <li>
+                    <div id="sparklinedash"></div>
+                </li>
+                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">@ViewBag.TotalTecnicas</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total de Quadrantes Criados</h3>
+            <ul class="list-inline two-part">
+                <li>
+                    <div id="sparklinedash2"></div>
+                </li>
+                <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">@ViewBag.TotalQuadrantes</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total de Perguntas Criadas</h3>
+            <ul class="list-inline two-part">
+                <li>
+                    <div id="sparklinedash3"></div>
+                </li>
+                <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">@ViewBag.TotalPerguntas</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nome)
-        </td>
-        <td>
-            @Html.ActionLink("Editar Técnica", "EditarTecnica", new { id=item.idTecnica }) |
-            @Html.ActionLink("Detalhes da Técnica", "DetalhesTecnicas", new { id=item.idTecnica }) |
-            @Html.ActionLink("Eliminar Técnica", "DeleteTecnicas", new { id=item.idTecnica })
-        </td>
-    </tr>
-}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Técnicas Recentemente Criadas</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Data de Criação")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dataCriacao)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar Técnica", "EditarTecnica", new { id = item.idTecnica }) |
+                                    @Html.ActionLink("Detalhes da Técnica", "DetalhesTecnicas", new { id = item.idTecnica }) |
+                                    @Html.ActionLink("Eliminar Técnica", "DeleteTecnicas", new { id = item.idTecnica })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-</table>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Ver Mais Técnicas" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

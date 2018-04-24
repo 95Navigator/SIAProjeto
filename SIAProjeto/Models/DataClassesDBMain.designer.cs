@@ -347,6 +347,8 @@ namespace SIAProjeto.Models
 		
 		private string _password;
 		
+		private bool _estadoAtivacao;
+		
 		private bool _estadoAutenticacao;
 		
 		private System.DateTime _dataRegisto;
@@ -373,6 +375,8 @@ namespace SIAProjeto.Models
     partial void OnemailChanged();
     partial void OnpasswordChanging(string value);
     partial void OnpasswordChanged();
+    partial void OnestadoAtivacaoChanging(bool value);
+    partial void OnestadoAtivacaoChanged();
     partial void OnestadoAutenticacaoChanging(bool value);
     partial void OnestadoAutenticacaoChanged();
     partial void OndataRegistoChanging(System.DateTime value);
@@ -467,6 +471,26 @@ namespace SIAProjeto.Models
 					this._password = value;
 					this.SendPropertyChanged("password");
 					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estadoAtivacao", DbType="Bit NOT NULL")]
+		public bool estadoAtivacao
+		{
+			get
+			{
+				return this._estadoAtivacao;
+			}
+			set
+			{
+				if ((this._estadoAtivacao != value))
+				{
+					this.OnestadoAtivacaoChanging(value);
+					this.SendPropertyChanging();
+					this._estadoAtivacao = value;
+					this.SendPropertyChanged("estadoAtivacao");
+					this.OnestadoAtivacaoChanged();
 				}
 			}
 		}
@@ -2042,6 +2066,8 @@ namespace SIAProjeto.Models
 		
 		private string _nome;
 		
+		private System.DateTime _dataCriacao;
+		
 		private int _idUtilizador;
 		
 		private EntitySet<Quadrante_Tecnica> _Quadrante_Tecnicas;
@@ -2058,6 +2084,8 @@ namespace SIAProjeto.Models
     partial void OnidTecnicaChanged();
     partial void OnnomeChanging(string value);
     partial void OnnomeChanged();
+    partial void OndataCriacaoChanging(System.DateTime value);
+    partial void OndataCriacaoChanged();
     partial void OnidUtilizadorChanging(int value);
     partial void OnidUtilizadorChanged();
     #endregion
@@ -2106,6 +2134,26 @@ namespace SIAProjeto.Models
 					this._nome = value;
 					this.SendPropertyChanged("nome");
 					this.OnnomeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dataCriacao", DbType="DateTime NOT NULL")]
+		public System.DateTime dataCriacao
+		{
+			get
+			{
+				return this._dataCriacao;
+			}
+			set
+			{
+				if ((this._dataCriacao != value))
+				{
+					this.OndataCriacaoChanging(value);
+					this.SendPropertyChanging();
+					this._dataCriacao = value;
+					this.SendPropertyChanged("dataCriacao");
+					this.OndataCriacaoChanged();
 				}
 			}
 		}
