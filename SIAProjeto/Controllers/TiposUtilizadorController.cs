@@ -57,16 +57,16 @@ namespace SIAProjeto.Controllers
         public ActionResult Create(FormCollection dadosTipoUtilizador)
         {
             //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
-            if (string.IsNullOrEmpty(dadosTipoUtilizador["nome"]) == true)
+            if (string.IsNullOrEmpty(dadosTipoUtilizador["TipoUtilizador.nome"]) == true)
             {
-                ModelState.AddModelError("nome", "Tem de introduzir um nome para o novo tipo de utilizador!");
+                ModelState.AddModelError("TipoUtilizador.nome", "Tem de introduzir um nome para o novo tipo de utilizador!");
             }
             else
             {
                 //Se já existe um tipo de utilizador com o nome introduzido, retorna erro
                 if (db.TipoUtilizadors.SingleOrDefault(t => t.nome == dadosTipoUtilizador["nome"]) != default(TipoUtilizador))
                 {
-                    ModelState.AddModelError("nome", "Um tipo de utilizador com este nome já se encontra criado!");
+                    ModelState.AddModelError("TipoUtilizador.nome", "Um tipo de utilizador com este nome já se encontra criado!");
                 }
             }
 
@@ -74,7 +74,7 @@ namespace SIAProjeto.Controllers
             {
                 TipoUtilizador newTipoUtilizador = new TipoUtilizador();
 
-                newTipoUtilizador.nome = dadosTipoUtilizador["nome"];
+                newTipoUtilizador.nome = dadosTipoUtilizador["TipoUtilizador.nome"];
 
                 db.TipoUtilizadors.InsertOnSubmit(newTipoUtilizador);
 

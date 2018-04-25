@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using SIAProjeto.Filters;
 using SIAProjeto.Models;
+using SIAProjeto.ViewModels;
 
 namespace SIAProjeto.Controllers
 {
@@ -78,37 +79,89 @@ namespace SIAProjeto.Controllers
 
         public ActionResult EditarTecnica(int id)
         {
-            return View(db.Tecnicas.Single(t => t.idTecnica == id));
+            TecnicasViewModel editViewModel = new TecnicasViewModel();
+
+            //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
+            editViewModel.Tecnica = db.Tecnicas.Single(t => t.idTecnica == id);
+
+            //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
+            //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
+            editViewModel.QuadrantesTecnicaList = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id).ToList();
+
+            foreach(Quadrante_Tecnica qt in editViewModel.QuadrantesTecnicaList)
+            {
+                editViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
+            }
+
+            //Depois, por cada quadrante da técnica, vamos buscar as suas respetivas perguntas
+            //Primeiro obtemos as relações de cada quadrante - depois obtemos as próprias perguntas pertencentes a cada quadrante da técnica
+            foreach(Quadrante q in editViewModel.QuadrantesList)
+            {
+                List<Pergunta_Quadrante> perguntasQuadranteList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == q.idQuadrante).ToList();
+
+                editViewModel.PerguntasQuadrantesList.AddRange(perguntasQuadranteList);
+
+                foreach(Pergunta_Quadrante pq in perguntasQuadranteList)
+                {
+                    editViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
+                }
+            }        
+
+            return View(editViewModel);
         }
 
         [HttpPost]
-        public ActionResult EditarTecnica(int id, FormCollection dadosNovos)
+        public ActionResult EditarTecnica(FormCollection dadosNovos, int id)
         {
-            if (string.IsNullOrEmpty(dadosNovos["nome"]) == true)
+            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+            if (string.IsNullOrEmpty(dadosNovos["Tecnica.nome"]) == true)
             {
-                ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
+                ModelState.AddModelError("Tecnica.nome", "Tem que preencher o campo do nome da técnica!");
             }
 
-            if (string.IsNullOrEmpty(dadosNovos["FlsComplete"]) == false)
-            {
-                ModelState.AddModelError("FlsComplete", "Algum campo está em falta!");
-            }
-
-            //Se os dados introduzidos estiverem válidos, atualiza o utilizador autenticado com esses mesmos dados
+            //Se os dados introduzidos estiverem válidos, atualiza a técnica pretendida com esses mesmos dados
             //Depois submete as alterações na base de dados
             if (ModelState.IsValid == true)
             {
-                Tecnica editTecnica = db.Tecnicas.Single(t => t.idTecnica == Convert.ToInt32(Session["idTecnica"]));
+                Tecnica editTecnica = db.Tecnicas.Single(t => t.idTecnica == id);         
 
-                editTecnica.nome = dadosNovos["nome"];
-                //editTecnica.FlsComplete = dadosNovos["FlsComplete"];
+                editTecnica.nome = dadosNovos["Tecnica.nome"];
+
                 db.SubmitChanges();
 
                 return RedirectToAction("Index");
             }
             else
             {
-                return View();
+                TecnicasViewModel editViewModel = new TecnicasViewModel();
+
+                //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
+                editViewModel.Tecnica = db.Tecnicas.Single(t => t.idTecnica == id);
+
+                //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
+                //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
+                editViewModel.QuadrantesTecnicaList = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id).ToList();
+
+                foreach (Quadrante_Tecnica qt in editViewModel.QuadrantesTecnicaList)
+                {
+                    editViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
+                }
+
+                //Depois, por cada quadrante da técnica, vamos buscar as suas respetivas perguntas
+                //Primeiro obtemos as relações de cada quadrante - depois obtemos as próprias perguntas pertencentes a cada quadrante da técnica
+                foreach (Quadrante q in editViewModel.QuadrantesList)
+                {
+                    List<Pergunta_Quadrante> perguntasQuadranteList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == q.idQuadrante).ToList();
+
+                    editViewModel.PerguntasQuadrantesList.AddRange(perguntasQuadranteList);
+
+                    foreach (Pergunta_Quadrante pq in perguntasQuadranteList)
+                    {
+                        editViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
+                    }
+                }
+
+                return View(editViewModel);
             }
         }
 

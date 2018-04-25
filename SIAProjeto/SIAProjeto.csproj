@@ -669,6 +669,7 @@
       <DependentUpon>DataClassesDBMain.dbml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\TecnicasViewModel.cs" />
     <Compile Include="ViewModels\TiposUtilizadorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
