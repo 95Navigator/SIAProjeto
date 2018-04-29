@@ -127,22 +127,22 @@ namespace SIAProjeto.Controllers
             TipoUtilizador editTipoUtilizador = db.TipoUtilizadors.Single(t => t.idTipoUtilizador == id);
 
             //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
-            if (string.IsNullOrEmpty(dadosTipoUtilizador["nome"]) == true)
+            if (string.IsNullOrEmpty(dadosTipoUtilizador["TipoUtilizador.nome"]) == true)
             {
-                ModelState.AddModelError("nome", "Tem de introduzir um nome para o novo tipo de utilizador!");
+                ModelState.AddModelError("TipoUtilizador.nome", "Tem de introduzir um nome para o novo tipo de utilizador!");
             }
             else
             {
                 //Se o nome do tipo de utilizador introduzido não for igual ao que estava, mas se já existe um tipo de utilizador com o novo nome introduzido, retorna erro
-                if (editTipoUtilizador.nome != dadosTipoUtilizador["nome"] && db.TipoUtilizadors.SingleOrDefault(t => t.nome == dadosTipoUtilizador["nome"]) != default(TipoUtilizador))
+                if (editTipoUtilizador.nome != dadosTipoUtilizador["TipoUtilizador.nome"] && db.TipoUtilizadors.SingleOrDefault(t => t.nome == dadosTipoUtilizador["TipoUtilizador.nome"]) != default(TipoUtilizador))
                 {
-                    ModelState.AddModelError("nome", "Um tipo de utilizador com este nome já se encontra criado!");
+                    ModelState.AddModelError("TipoUtilizador.nome", "Um tipo de utilizador com este nome já se encontra criado!");
                 }
             }
 
             if (ModelState.IsValid == true)
             {
-                editTipoUtilizador.nome = dadosTipoUtilizador["nome"];
+                editTipoUtilizador.nome = dadosTipoUtilizador["TipoUtilizador.nome"];
 
                 db.Permissao_TipoUtilizadors.DeleteAllOnSubmit(db.Permissao_TipoUtilizadors.Where(pt => pt.idTipoUtilizador == id));
                 db.SubmitChanges();

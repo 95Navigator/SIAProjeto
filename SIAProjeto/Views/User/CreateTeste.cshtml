@@ -4,40 +4,48 @@
     ViewBag.Title = "Novo Teste";
 }
 
-<h2>Novo Teste</h2>
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Novo Teste</h4>
+    </div>
+</div>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Introduza todos os dados aqui pedidos</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Nome:", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <h3 class="box-title">Dados do Teste</h3>
 
-        <div class="form-group">
-            @Html.Label("Técnica:", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.idTecnica, (SelectList)ViewBag.selectListTecnica, "Escolha uma técnica da lista" , new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idTecnica, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Começar Teste" class="btn btn-block btn-primary" />
-            </div>
+                <div class="form-horizontal form-material">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.Label("Nome", htmlAttributes: new { @class = "col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                            @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="submit" value="Começar Teste" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-}
+</div>
 
-<div>
-    @Html.ActionLink("Regressar", "Index")
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <h3 class="box-title">Escolha a técnica a usar</h3>
+
+        </div>
+    </div>
 </div>

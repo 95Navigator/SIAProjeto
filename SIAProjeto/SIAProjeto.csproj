@@ -630,6 +630,10 @@
       <LastGenOutput>DataClassesDBMain.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -655,6 +659,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TecnicasController.cs" />
+    <Compile Include="Controllers\TestesController.cs" />
     <Compile Include="Controllers\TiposUtilizadorController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\LoginActionFilter.cs" />
@@ -709,6 +714,8 @@
     <Content Include="Views\Tecnicas\CriarTecnica.cshtml" />
     <Content Include="Views\User\CreateTeste.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Testes\Index.cshtml" />
+    <Content Include="Views\Testes\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -728,6 +735,7 @@
       <DependentUpon>DataClassesDBMain.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

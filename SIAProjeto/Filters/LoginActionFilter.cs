@@ -29,7 +29,7 @@ namespace SIAProjeto.Filters
             }
             else
             {
-                filterContext.HttpContext.Response.Redirect("Home/Index");
+                filterContext.HttpContext.Response.Redirect("/Home/Index");
             }
         }
     }

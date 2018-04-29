@@ -34,7 +34,7 @@ namespace SIAProjeto.Filters
             }
             else
             {
-                filterContext.HttpContext.Response.Redirect("User/Index");
+                filterContext.HttpContext.Response.Redirect("/User/Index");
             }
         }
     }
