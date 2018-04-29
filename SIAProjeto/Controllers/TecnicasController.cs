@@ -28,7 +28,6 @@ namespace SIAProjeto.Controllers
             db = new DataClassesDBMainDataContext();            
         }
 
-        // GET: Tecnicas
         // o que vai retornar ma View 
         public ActionResult Index()
         {
@@ -75,6 +74,13 @@ namespace SIAProjeto.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult DetalhesTecnicas(int id)
+        {
+            //apresenta o ecra dos quadrantes com um botao para listar as perguntas 
+            //retornar para a view a tecnica, cujo o id é "id"; 
+            return View(db.Tecnicas.Single(t => t.idTecnica == id));
         }
 
         public ActionResult EditarTecnica(int id)
@@ -165,13 +171,6 @@ namespace SIAProjeto.Controllers
             }
         }
 
-        public ActionResult DetalhesTecnicas(int id)
-        {
-            //apresenta o ecra dos quadrantes com um botao para listar as perguntas 
-            //retornar para a view a tecnica, cujo o id é "id"; 
-            return View(db.Tecnicas.Single(t=>t.idTecnica == id));
-        }
-
         public ActionResult DeleteTecnicas(int idTecnica)
         {
             // apagar apenas a ténica, não apagar quadrantes nem perguntas associadas
@@ -189,43 +188,83 @@ namespace SIAProjeto.Controllers
             return RedirectToAction("Index"); 
         }
         #endregion
-        
-        /// <summary>
-        /// É criada uma lista de "Quadrante_Texnicas", a qual vai ser tornar numa coleção desse objeto da base de dados, 
-        /// Entretanto a lista de "Quadrante", repreenta uma linha da coleção aux
-        /// Ciclo foreach pega e para cada linha da coleção "aux", onde o id de "aux" é igual ao id de "qt" (linha da coleção), é acrescentado esse mesmo elemento/linha
-        /// por ultimoé retornada a Lista desses esmos quadrantes. 
-        /// </summary>
-        /// <param name="idTecnica"></param>
-        /// <returns></returns>
 
-        public ActionResult ListQuadrantes(int idTecnica)
+        #region Quadrante
+        public ActionResult CriarQuadrante(FormCollection dadosNovos)
         {
-            List<Quadrante_Tecnica> aux = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == idTecnica).ToList();
-
-            List<Quadrante> aux2 = new List<Quadrante>();
-
-            foreach(Quadrante_Tecnica qt in aux)
-            {
-                aux2.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
-            }
-
-            return View(aux2);
+            //criação de nova pergunta; 
+            return null;
         }
 
-        public ActionResult ListPerguntas(int idQuadrante)
+        public ActionResult DetalhesQuadrante(int idQuadrante)
         {
-            List<Pergunta_Quadrante> aux = db.Pergunta_Quadrantes.Where(pq => pq.idPergunta_Quadrante == idQuadrante).ToList();
+            //detalhes de nova pergunta; 
+            return View(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
+        }
 
-            List<Pergunta> aux2 = new List<Pergunta>();
+        public ActionResult EditarQuadrante(int id)
+        {
+            TecnicasViewModel editQuadranteViewModel = new TecnicasViewModel();
 
-            foreach (Pergunta_Quadrante pq in aux)
+            editQuadranteViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == id));
+            editQuadranteViewModel.PerguntasQuadrantesList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == id).ToList();
+            
+            foreach(Pergunta_Quadrante pq in editQuadranteViewModel.PerguntasQuadrantesList)
             {
-                aux2.Add(db.Perguntas.Single(p=>pq.idPergunta == pq.idPergunta));
+                editQuadranteViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
             }
 
-            return View(aux2);
+            return View(editQuadranteViewModel);
         }
+
+        [HttpPost]
+        public ActionResult EditarQuadrante(FormCollection dadosNovos, int id)
+        {
+            if(string.IsNullOrEmpty(dadosNovos["nome"]) == true)
+            {
+                ModelState.AddModelError("nome", "Tem que preencher o campo do nome do quadrante!");
+            }
+
+            if(ModelState.IsValid == true)
+            {
+                Quadrante editQuadrante = db.Quadrantes.Single(q => q.idQuadrante == id);
+
+                editQuadrante.nome = dadosNovos["nome"];
+
+                db.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TecnicasViewModel editQuadranteViewModel = new TecnicasViewModel();
+
+                editQuadranteViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == id));
+                editQuadranteViewModel.PerguntasQuadrantesList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == id).ToList();
+
+                foreach (Pergunta_Quadrante pq in editQuadranteViewModel.PerguntasQuadrantesList)
+                {
+                    editQuadranteViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
+                }
+
+                return View(editQuadranteViewModel);
+            }
+        }
+
+        public ActionResult DeleteQuadrante(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteQuadrante(FormCollection fake, int idQuadrante)
+        {
+            db.Quadrantes.DeleteOnSubmit(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
+            db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
+
+            return RedirectToAction("Index");
+        }
+        #endregion
 
         #region Pergunta 
         public ActionResult CriarPergunra(FormCollection dadosNovos)
@@ -258,35 +297,6 @@ namespace SIAProjeto.Controllers
 
             return RedirectToAction("Index");
         }
-        #endregion
-
-        #region Quadrante
-        public ActionResult CriarQuadrante (FormCollection dadosNovos)
-        {
-            //criação de nova pergunta; 
-            return null;
-        }
-        public ActionResult EditarQuadrante(FormCollection dadosNovos, int id)
-        {
-            return View(db.Quadrantes.Single(q=>q.idQuadrante==id));
-        }
-        public ActionResult DetalhesQuadrante(int idQuadrante)
-        {
-            //detalhes de nova pergunta; 
-            return View(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
-        }
-
-        [HttpPost]
-        public ActionResult DeleteQuadrante(FormCollection fake, int idQuadrante)
-        {
-            db.Quadrantes.DeleteOnSubmit(db.Quadrantes.Single(q => q.idQuadrante == idQuadrante));
-            db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
-
-            return RedirectToAction("Index");
-
-        }
-
-    
         #endregion
     }
 }

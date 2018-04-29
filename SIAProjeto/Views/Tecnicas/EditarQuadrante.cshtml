@@ -1,0 +1,85 @@
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
+
+@{
+    ViewBag.Title = "Editar Quadrante";
+}
+
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Editar Quadrante @Model.QuadrantesList.First().nome</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal form-material">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.QuadrantesList.First().idQuadrante)
+
+                    <div class="form-group">
+                        @Html.Label("Nome", htmlAttributes: new { @class = "col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.QuadrantesList.First().nome, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                            @Html.ValidationMessageFor(model => model.QuadrantesList.First().nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="submit" value="Guardar Quadrante" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Perguntas do Quadrante</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Texto")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Grau de Importância")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.PerguntasList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => p.texto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => p.importancia)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar Pergunta", "EditarPergunta", new { id = p.idPergunta }) |
+                                    @Html.ActionLink("Detalhes da Pergunta", "DetalhesPergunta", new { id = p.idPergunta }) |
+                                    @Html.ActionLink("Eliminar Pergunta", "DeletePergunta", new { id = p.idPergunta })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

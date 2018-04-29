@@ -1,17 +1,31 @@
 ﻿@model IEnumerable<SIAProjeto.Models.TipoUtilizador>
 
 @{
-    ViewBag.Title = "Tipos de Utilizador";
+    ViewBag.Title = "Gestor de Tipos de Utilizador";
 }
 
 <div class="row bg-title">
-    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-        <h4 class="page-title">Tipos de Utilizador</h4>
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Gestor de Tipos de Utilizador</h4>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-lg-12 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total de Tipos de Utilizador Disponíveis</h3>
+            <ul class="list-inline two-part">
+                <li>
+                    <div id="sparklinedash"></div>
+                </li>
+                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">659</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
         <div class="white-box">
             <h3 class="box-title">Tipos de Utilizador Disponíveis</h3>
             <div class="table-responsive">
