@@ -47,7 +47,6 @@ namespace SIAProjeto.Controllers
         public ActionResult Create()
         {
             TiposUtilizadorViewModel createViewModel = new TiposUtilizadorViewModel();
-
             createViewModel.PermissoesList = db.Permissaos.ToList();
 
             return View(createViewModel);
