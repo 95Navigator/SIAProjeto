@@ -3,9 +3,11 @@
   <Table Name="dbo.Pergunta" Member="Perguntas">
     <Type Name="Pergunta">
       <Column Name="idPergunta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="texto" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="importancia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Pergunta_Pergunta_Quadrante" Member="Pergunta_Quadrantes" ThisKey="idPergunta" OtherKey="idPergunta" Type="Pergunta_Quadrante" />
+      <Association Name="Utilizador_Pergunta" Member="Utilizador" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Utilizador" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Utilizador" Member="Utilizadors">
@@ -19,6 +21,8 @@
       <Column Name="dataRegisto" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="dataUltimaAutenticacao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="idTipoUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Utilizador_Pergunta" Member="Perguntas" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Pergunta" />
+      <Association Name="Utilizador_Quadrante" Member="Quadrantes" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Quadrante" />
       <Association Name="Utilizador_Tecnica" Member="Tecnicas" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Tecnica" />
       <Association Name="Utilizador_Teste" Member="Testes" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Teste" />
       <Association Name="TipoUtilizador_Utilizador" Member="TipoUtilizador" ThisKey="idTipoUtilizador" OtherKey="idTipoUtilizador" Type="TipoUtilizador" IsForeignKey="true" />
@@ -75,9 +79,11 @@
   <Table Name="dbo.Quadrante" Member="Quadrantes">
     <Type Name="Quadrante">
       <Column Name="idQuadrante" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idUtilizador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Quadrante_Pergunta_Quadrante" Member="Pergunta_Quadrantes" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Pergunta_Quadrante" />
       <Association Name="Quadrante_Quadrante_Tecnica" Member="Quadrante_Tecnicas" ThisKey="idQuadrante" OtherKey="idQuadrante" Type="Quadrante_Tecnica" />
+      <Association Name="Utilizador_Quadrante" Member="Utilizador" ThisKey="idUtilizador" OtherKey="idUtilizador" Type="Utilizador" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Quadrante_Tecnica" Member="Quadrante_Tecnicas">

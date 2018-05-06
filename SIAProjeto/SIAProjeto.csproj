@@ -139,6 +139,7 @@
     <Content Include="App_Data\DBMain_log.ldf">
       <DependentUpon>DBMain.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\31956095_1808016972622306_2941013881394298880_n.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -717,6 +718,8 @@
     <Content Include="Views\Testes\Index.cshtml" />
     <Content Include="Views\Testes\Create.cshtml" />
     <Content Include="Views\Tecnicas\EditarQuadrante.cshtml" />
+    <Content Include="Views\Tecnicas\EditarPergunta.cshtml" />
+    <Content Include="Views\Tecnicas\DeletePergunta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -736,7 +739,6 @@
       <DependentUpon>DataClassesDBMain.dbml</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

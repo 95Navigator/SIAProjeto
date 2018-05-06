@@ -203,11 +203,15 @@ namespace SIAProjeto.Models
 		
 		private int _idPergunta;
 		
+		private int _idUtilizador;
+		
 		private string _texto;
 		
 		private int _importancia;
 		
 		private EntitySet<Pergunta_Quadrante> _Pergunta_Quadrantes;
+		
+		private EntityRef<Utilizador> _Utilizador;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -215,6 +219,8 @@ namespace SIAProjeto.Models
     partial void OnCreated();
     partial void OnidPerguntaChanging(int value);
     partial void OnidPerguntaChanged();
+    partial void OnidUtilizadorChanging(int value);
+    partial void OnidUtilizadorChanged();
     partial void OntextoChanging(string value);
     partial void OntextoChanged();
     partial void OnimportanciaChanging(int value);
@@ -224,6 +230,7 @@ namespace SIAProjeto.Models
 		public Pergunta()
 		{
 			this._Pergunta_Quadrantes = new EntitySet<Pergunta_Quadrante>(new Action<Pergunta_Quadrante>(this.attach_Pergunta_Quadrantes), new Action<Pergunta_Quadrante>(this.detach_Pergunta_Quadrantes));
+			this._Utilizador = default(EntityRef<Utilizador>);
 			OnCreated();
 		}
 		
@@ -243,6 +250,30 @@ namespace SIAProjeto.Models
 					this._idPergunta = value;
 					this.SendPropertyChanged("idPergunta");
 					this.OnidPerguntaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idUtilizador", DbType="Int NOT NULL")]
+		public int idUtilizador
+		{
+			get
+			{
+				return this._idUtilizador;
+			}
+			set
+			{
+				if ((this._idUtilizador != value))
+				{
+					if (this._Utilizador.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidUtilizadorChanging(value);
+					this.SendPropertyChanging();
+					this._idUtilizador = value;
+					this.SendPropertyChanged("idUtilizador");
+					this.OnidUtilizadorChanged();
 				}
 			}
 		}
@@ -297,6 +328,40 @@ namespace SIAProjeto.Models
 			set
 			{
 				this._Pergunta_Quadrantes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Utilizador_Pergunta", Storage="_Utilizador", ThisKey="idUtilizador", OtherKey="idUtilizador", IsForeignKey=true)]
+		public Utilizador Utilizador
+		{
+			get
+			{
+				return this._Utilizador.Entity;
+			}
+			set
+			{
+				Utilizador previousValue = this._Utilizador.Entity;
+				if (((previousValue != value) 
+							|| (this._Utilizador.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Utilizador.Entity = null;
+						previousValue.Perguntas.Remove(this);
+					}
+					this._Utilizador.Entity = value;
+					if ((value != null))
+					{
+						value.Perguntas.Add(this);
+						this._idUtilizador = value.idUtilizador;
+					}
+					else
+					{
+						this._idUtilizador = default(int);
+					}
+					this.SendPropertyChanged("Utilizador");
+				}
 			}
 		}
 		
@@ -357,6 +422,10 @@ namespace SIAProjeto.Models
 		
 		private int _idTipoUtilizador;
 		
+		private EntitySet<Pergunta> _Perguntas;
+		
+		private EntitySet<Quadrante> _Quadrantes;
+		
 		private EntitySet<Tecnica> _Tecnicas;
 		
 		private EntitySet<Teste> _Testes;
@@ -389,6 +458,8 @@ namespace SIAProjeto.Models
 		
 		public Utilizador()
 		{
+			this._Perguntas = new EntitySet<Pergunta>(new Action<Pergunta>(this.attach_Perguntas), new Action<Pergunta>(this.detach_Perguntas));
+			this._Quadrantes = new EntitySet<Quadrante>(new Action<Quadrante>(this.attach_Quadrantes), new Action<Quadrante>(this.detach_Quadrantes));
 			this._Tecnicas = new EntitySet<Tecnica>(new Action<Tecnica>(this.attach_Tecnicas), new Action<Tecnica>(this.detach_Tecnicas));
 			this._Testes = new EntitySet<Teste>(new Action<Teste>(this.attach_Testes), new Action<Teste>(this.detach_Testes));
 			this._TipoUtilizador = default(EntityRef<TipoUtilizador>);
@@ -579,6 +650,32 @@ namespace SIAProjeto.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Utilizador_Pergunta", Storage="_Perguntas", ThisKey="idUtilizador", OtherKey="idUtilizador")]
+		public EntitySet<Pergunta> Perguntas
+		{
+			get
+			{
+				return this._Perguntas;
+			}
+			set
+			{
+				this._Perguntas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Utilizador_Quadrante", Storage="_Quadrantes", ThisKey="idUtilizador", OtherKey="idUtilizador")]
+		public EntitySet<Quadrante> Quadrantes
+		{
+			get
+			{
+				return this._Quadrantes;
+			}
+			set
+			{
+				this._Quadrantes.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Utilizador_Tecnica", Storage="_Tecnicas", ThisKey="idUtilizador", OtherKey="idUtilizador")]
 		public EntitySet<Tecnica> Tecnicas
 		{
@@ -657,6 +754,30 @@ namespace SIAProjeto.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Perguntas(Pergunta entity)
+		{
+			this.SendPropertyChanging();
+			entity.Utilizador = this;
+		}
+		
+		private void detach_Perguntas(Pergunta entity)
+		{
+			this.SendPropertyChanging();
+			entity.Utilizador = null;
+		}
+		
+		private void attach_Quadrantes(Quadrante entity)
+		{
+			this.SendPropertyChanging();
+			entity.Utilizador = this;
+		}
+		
+		private void detach_Quadrantes(Quadrante entity)
+		{
+			this.SendPropertyChanging();
+			entity.Utilizador = null;
 		}
 		
 		private void attach_Tecnicas(Tecnica entity)
@@ -1702,11 +1823,15 @@ namespace SIAProjeto.Models
 		
 		private int _idQuadrante;
 		
+		private int _idUtilizador;
+		
 		private string _nome;
 		
 		private EntitySet<Pergunta_Quadrante> _Pergunta_Quadrantes;
 		
 		private EntitySet<Quadrante_Tecnica> _Quadrante_Tecnicas;
+		
+		private EntityRef<Utilizador> _Utilizador;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1714,6 +1839,8 @@ namespace SIAProjeto.Models
     partial void OnCreated();
     partial void OnidQuadranteChanging(int value);
     partial void OnidQuadranteChanged();
+    partial void OnidUtilizadorChanging(int value);
+    partial void OnidUtilizadorChanged();
     partial void OnnomeChanging(string value);
     partial void OnnomeChanged();
     #endregion
@@ -1722,6 +1849,7 @@ namespace SIAProjeto.Models
 		{
 			this._Pergunta_Quadrantes = new EntitySet<Pergunta_Quadrante>(new Action<Pergunta_Quadrante>(this.attach_Pergunta_Quadrantes), new Action<Pergunta_Quadrante>(this.detach_Pergunta_Quadrantes));
 			this._Quadrante_Tecnicas = new EntitySet<Quadrante_Tecnica>(new Action<Quadrante_Tecnica>(this.attach_Quadrante_Tecnicas), new Action<Quadrante_Tecnica>(this.detach_Quadrante_Tecnicas));
+			this._Utilizador = default(EntityRef<Utilizador>);
 			OnCreated();
 		}
 		
@@ -1741,6 +1869,30 @@ namespace SIAProjeto.Models
 					this._idQuadrante = value;
 					this.SendPropertyChanged("idQuadrante");
 					this.OnidQuadranteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idUtilizador", DbType="Int NOT NULL")]
+		public int idUtilizador
+		{
+			get
+			{
+				return this._idUtilizador;
+			}
+			set
+			{
+				if ((this._idUtilizador != value))
+				{
+					if (this._Utilizador.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidUtilizadorChanging(value);
+					this.SendPropertyChanging();
+					this._idUtilizador = value;
+					this.SendPropertyChanged("idUtilizador");
+					this.OnidUtilizadorChanged();
 				}
 			}
 		}
@@ -1788,6 +1940,40 @@ namespace SIAProjeto.Models
 			set
 			{
 				this._Quadrante_Tecnicas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Utilizador_Quadrante", Storage="_Utilizador", ThisKey="idUtilizador", OtherKey="idUtilizador", IsForeignKey=true)]
+		public Utilizador Utilizador
+		{
+			get
+			{
+				return this._Utilizador.Entity;
+			}
+			set
+			{
+				Utilizador previousValue = this._Utilizador.Entity;
+				if (((previousValue != value) 
+							|| (this._Utilizador.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Utilizador.Entity = null;
+						previousValue.Quadrantes.Remove(this);
+					}
+					this._Utilizador.Entity = value;
+					if ((value != null))
+					{
+						value.Quadrantes.Add(this);
+						this._idUtilizador = value.idUtilizador;
+					}
+					else
+					{
+						this._idUtilizador = default(int);
+					}
+					this.SendPropertyChanged("Utilizador");
+				}
 			}
 		}
 		
