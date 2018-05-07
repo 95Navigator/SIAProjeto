@@ -717,6 +717,7 @@
     <Content Include="Views\Testes\Index.cshtml" />
     <Content Include="Views\Testes\Create.cshtml" />
     <Content Include="Views\Tecnicas\EditarQuadrante.cshtml" />
+    <Content Include="Views\Tecnicas\EditarPergunta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

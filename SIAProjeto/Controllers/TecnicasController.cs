@@ -35,7 +35,7 @@ namespace SIAProjeto.Controllers
             ViewBag.TotalPerguntas = db.Perguntas.Count(); 
             ViewBag.TotalQuadrantes = db.Quadrantes.Count();
 
-            return View(db.Tecnicas.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
+            return View(db.Tecnicas);
         }
 
         #region Tecnica
@@ -273,10 +273,9 @@ namespace SIAProjeto.Controllers
             //fica criada uma pullde perguntas e pull de quadrantes 
             return null; 
         }
-        public ActionResult EditarPergunta(FormCollection dadosNovos, int id)
+        public ActionResult EditarPergunta(int id)
         {
             return View(db.Perguntas.Single(p => p.idPergunta == id));
-
         }
         public ActionResult DetalhesPergunta(FormCollection dadosNovos)
         {

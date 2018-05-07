@@ -112,7 +112,7 @@ namespace SIAProjeto.Controllers
         [HttpPost]
         public ActionResult Registo(FormCollection dadosRegisto)
         {
-            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc.)
+            //Verifica cada dado introduzido pelo utilizador por inconsistências (se os campos estão preenchidos, se os campos são válidos, etc...)
             if(string.IsNullOrEmpty(dadosRegisto["nome"]) == true)
             {
                 ModelState.AddModelError("nome", "Tem que preencher o campo do nome!");
@@ -134,6 +134,7 @@ namespace SIAProjeto.Controllers
             {
                 ModelState.AddModelError("password", "Tem que preencher o campo da palavra-passe!");
             }
+
             else
             {
                 if(dadosRegisto["password"].Length < 8)
@@ -144,6 +145,7 @@ namespace SIAProjeto.Controllers
 
             //Se os dados introduzidos estiverem válidos, cria um novo utilizador com esses mesmos dados
             //Depois submete o novo utilizador na base de dados
+
             if(ModelState.IsValid == true)
             {
                 Utilizador newUtilizador = new Utilizador();
