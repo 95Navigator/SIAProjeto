@@ -31,11 +31,13 @@ namespace SIAProjeto.Controllers
         // o que vai retornar ma View 
         public ActionResult Index()
         {
-            ViewBag.TotalTecnicas = db.Tecnicas.Count();
-            ViewBag.TotalPerguntas = db.Perguntas.Count(); 
-            ViewBag.TotalQuadrantes = db.Quadrantes.Count();
+            TecnicasViewModel indexViewModel = new TecnicasViewModel();
 
-            return View(db.Tecnicas);
+            indexViewModel.TecnicasList = db.Tecnicas.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
+            indexViewModel.QuadrantesList = db.Quadrantes.Where(q => q.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
+            indexViewModel.PerguntasList = db.Perguntas.Where(p => p.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
+
+            return View(indexViewModel);
         }
 
         #region Tecnica
@@ -88,7 +90,7 @@ namespace SIAProjeto.Controllers
             TecnicasViewModel editViewModel = new TecnicasViewModel();
 
             //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
-            editViewModel.Tecnica = db.Tecnicas.Single(t => t.idTecnica == id);
+            editViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
 
             //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
             //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
@@ -142,7 +144,7 @@ namespace SIAProjeto.Controllers
                 TecnicasViewModel editViewModel = new TecnicasViewModel();
 
                 //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
-                editViewModel.Tecnica = db.Tecnicas.Single(t => t.idTecnica == id);
+                editViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
 
                 //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
                 //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
@@ -273,25 +275,59 @@ namespace SIAProjeto.Controllers
             //fica criada uma pullde perguntas e pull de quadrantes 
             return null; 
         }
+
         public ActionResult EditarPergunta(int id)
         {
             return View(db.Perguntas.Single(p => p.idPergunta == id));
         }
+
+        [HttpPost]
+        public ActionResult EditarPergunta(FormCollection dadosNovos, int id)
+        {
+            if(string.IsNullOrEmpty(dadosNovos["texto"]) == true)
+            {
+                ModelState.AddModelError("texto", "Tem que introduzir um texto válido!");
+            }
+
+            if(string.IsNullOrEmpty(dadosNovos["importancia"]) == true)
+            {
+                ModelState.AddModelError("importancia", "Tem que introduzir uma importância válida para esta pergunta!");
+            }
+
+            if(ModelState.IsValid == true)
+            {
+                Pergunta editPergunta = db.Perguntas.Single(p => p.idPergunta == id);
+
+                editPergunta.texto = dadosNovos["texto"];
+                editPergunta.importancia = Convert.ToInt32(dadosNovos["importancia"]);
+
+                db.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public ActionResult DetalhesPergunta(FormCollection dadosNovos)
         {
             //detalhes de nova pergunta; 
             return null; 
         }
 
-        //public ActionResult DeletePergunta(int idPergunta)
-        //{
-        //    //return View(db.Perguntas.Single(p=>p.));
-        //}
+        public ActionResult DeletePergunta(int id)
+        {
+            return View(db.Perguntas.Single(p => p.idPergunta == id));
+        }
 
         [HttpPost]
-        public ActionResult DeletePergunta(FormCollection fake, int idPergunta)
+        public ActionResult DeletePergunta(FormCollection fake, int id)
         {
-            db.Perguntas.DeleteOnSubmit(db.Perguntas.Single(p => p.idPergunta == idPergunta));
+            db.Pergunta_Quadrantes.DeleteAllOnSubmit(db.Pergunta_Quadrantes.Where(pq => pq.idPergunta == id));
+            db.Perguntas.DeleteOnSubmit(db.Perguntas.Single(p => p.idPergunta == id));
+
             db.SubmitChanges(); //função que carrega "Ok" em todas as mudanças que queremos realizar no repositorio de dados; 
 
             return RedirectToAction("Index");

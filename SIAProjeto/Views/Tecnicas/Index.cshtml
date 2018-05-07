@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SIAProjeto.Models.Tecnica>
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
 
 @{
     ViewBag.Title = "Gestor de Técnicas";
@@ -18,7 +18,7 @@
                 <li>
                     <div id="sparklinedash"></div>
                 </li>
-                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">@ViewBag.TotalTecnicas</span></li>
+                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">@Model.TecnicasList.Count</span></li>
             </ul>
         </div>
     </div>
@@ -29,7 +29,7 @@
                 <li>
                     <div id="sparklinedash2"></div>
                 </li>
-                <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">@ViewBag.TotalQuadrantes</span></li>
+                <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">@Model.QuadrantesList.Count</span></li>
             </ul>
         </div>
     </div>
@@ -40,7 +40,7 @@
                 <li>
                     <div id="sparklinedash3"></div>
                 </li>
-                <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">@ViewBag.TotalPerguntas</span></li>
+                <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">@Model.PerguntasList.Count</span></li>
             </ul>
         </div>
     </div>
@@ -63,7 +63,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.TecnicasList)
                         {
                             <tr>
                                 <td>
@@ -88,7 +88,98 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-actions no-color">
-                    <input type="submit" value="Ver Mais" class="btn btn-success" />
+                    <input type="submit" value="Ver Todas" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Quadrantes Recentemente Criados</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.QuadrantesList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.nome)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar Quadrante", "EditarQuadrante", new { id = item.idQuadrante }) |
+                                    @Html.ActionLink("Detalhes do Quadrante", "DetailsQuadrante", new { id = item.idQuadrante }) |
+                                    @Html.ActionLink("Eliminar Quadrante", "DeleteQuadrante", new { id = item.idQuadrante })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Ver Todos" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Perguntas Recentemente Criadas</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Texto")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Importância")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PerguntasList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.texto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.importancia)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar Pergunta", "EditarPergunta", new { id = item.idPergunta }) |
+                                    @Html.ActionLink("Eliminar Pergunta", "DeletePergunta", new { id = item.idPergunta })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Ver Todas" class="btn btn-success" />
                 </div>
             }
         </div>

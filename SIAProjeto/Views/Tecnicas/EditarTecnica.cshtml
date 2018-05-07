@@ -6,7 +6,7 @@
 
 <div class="row bg-title">
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-        <h4 class="page-title">Editar Técnica @Model.Tecnica.nome</h4>
+        <h4 class="page-title">Editar Técnica @Model.TecnicasList.First().nome</h4>
     </div>
 </div>
 
@@ -19,13 +19,13 @@
 
                 <div class="form-horizontal form-material">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.Tecnica.idTecnica)
+                    @Html.HiddenFor(model => model.TecnicasList.First().idTecnica)
 
                     <div class="form-group">
                         @Html.Label("Nome", htmlAttributes: new { @class = "col-md-12" })
                         <div class="col-md-12">
-                            @Html.EditorFor(model => Model.Tecnica.nome, new { htmlAttributes = new { @class = "form-control form-control-line" } })
-                            @Html.ValidationMessageFor(model => Model.Tecnica.nome, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => Model.TecnicasList.First().nome, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                            @Html.ValidationMessageFor(model => Model.TecnicasList.First().nome, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -75,7 +75,8 @@
                 </div>
 
                 <div class="form-actions no-color">
-                    <button class="btn btn-success">@Html.ActionLink("Editar Quadrante", "EditarQuadrante", new { id = q.idQuadrante })</button>
+                    @Html.ActionLink("Editar Quadrante", "EditarTecnica", new { id = q.idQuadrante }) |
+                    @Html.ActionLink("Eliminar Quadrante", "DeleteTecnicas", new { q.idQuadrante })
                 </div>
             </div>
         </div>
