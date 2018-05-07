@@ -701,9 +701,9 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Tecnicas\Index.cshtml" />
-    <Content Include="Views\Tecnicas\EditarTecnica.cshtml" />
+    <Content Include="Views\Tecnicas\EditTecnica.cshtml" />
     <Content Include="Views\Tecnicas\DetalhesTecnicas.cshtml" />
-    <Content Include="Views\Tecnicas\DeleteTecnicas.cshtml" />
+    <Content Include="Views\Tecnicas\DeleteTecnica.cshtml" />
     <Content Include="Views\Tecnicas\NotFound.cshtml" />
     <Content Include="Views\Tecnicas\ListQuadrantes.cshtml" />
     <Content Include="Views\Tecnicas\ListPerguntas.cshtml" />
@@ -717,8 +717,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Testes\Index.cshtml" />
     <Content Include="Views\Testes\Create.cshtml" />
-    <Content Include="Views\Tecnicas\EditarQuadrante.cshtml" />
-    <Content Include="Views\Tecnicas\EditarPergunta.cshtml" />
+    <Content Include="Views\Tecnicas\EditQuadrante.cshtml" />
+    <Content Include="Views\Tecnicas\EditPergunta.cshtml" />
     <Content Include="Views\Tecnicas\DeletePergunta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

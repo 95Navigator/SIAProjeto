@@ -67,9 +67,7 @@
                                     @Html.DisplayFor(modelItem => p.importancia)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Editar Pergunta", "EditarPergunta", new { id = p.idPergunta }) |
-                                    @Html.ActionLink("Detalhes da Pergunta", "DetalhesPergunta", new { id = p.idPergunta }) |
-                                    @Html.ActionLink("Eliminar Pergunta", "DeletePergunta", new { id = p.idPergunta })
+                                    @Html.ActionLink("Remover Pergunta Deste Quadrante", "RemovePergunta", new { id = p.idPergunta })
                                 </td>
                             </tr>
                         }

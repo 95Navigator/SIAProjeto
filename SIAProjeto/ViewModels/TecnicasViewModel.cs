@@ -10,7 +10,6 @@ namespace SIAProjeto.ViewModels
     public class TecnicasViewModel
     {
         private List<Tecnica> tecnicasList;
-        private List<Quadrante_Tecnica> quadrantesTecnicaList;
         private List<Quadrante> quadrantesList;
         private List<Pergunta_Quadrante> perguntasQuadrantesList;
         private List<Pergunta> perguntasList;
@@ -25,19 +24,6 @@ namespace SIAProjeto.ViewModels
             set
             {
                 tecnicasList = value;
-            }
-        }
-
-        public List<Quadrante_Tecnica> QuadrantesTecnicaList
-        {
-            get
-            {
-                return quadrantesTecnicaList;
-            }
-
-            set
-            {
-                quadrantesTecnicaList = value;
             }
         }
 
@@ -83,7 +69,6 @@ namespace SIAProjeto.ViewModels
         public TecnicasViewModel()
         {
             tecnicasList = new List<Tecnica>();
-            quadrantesTecnicaList = new List<Quadrante_Tecnica>();
             quadrantesList = new List<Quadrante>();
             perguntasQuadrantesList = new List<Pergunta_Quadrante>();
             perguntasList = new List<Pergunta>();
