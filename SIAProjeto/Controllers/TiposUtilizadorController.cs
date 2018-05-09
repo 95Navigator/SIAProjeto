@@ -141,11 +141,14 @@ namespace SIAProjeto.Controllers
 
             if (ModelState.IsValid == true)
             {
+                //Associa os novos dados ao tipo de utilizador
                 editTipoUtilizador.nome = dadosTipoUtilizador["TipoUtilizador.nome"];
 
+                //Apaga todas as relações permissão-tipo associadas a este tipo de utilizador particular
                 db.Permissao_TipoUtilizadors.DeleteAllOnSubmit(db.Permissao_TipoUtilizadors.Where(pt => pt.idTipoUtilizador == id));
                 db.SubmitChanges();
 
+                //Depois das relações apagadas, volta a criar novas relações permissão-tipo, com base nas novas checkboxes seleccionadas
                 foreach (Permissao p in db.Permissaos)
                 {
                     //Visto que o ASP.NET MVC faz umas coisas esquisitas com as checkboxes, este workaround certifica que a checkbox de cada permissão é corretamente validada

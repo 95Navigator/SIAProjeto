@@ -1,0 +1,98 @@
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
+
+@{
+    ViewBag.Title = "Detalhes do Quadrante " + @Model.QuadrantesList.First().nome;
+}
+
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Detalhes do Quadrante @Model.QuadrantesList.First().nome</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Nome")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.QuadrantesList.First().nome)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Técnicas que Possuem Este Quadrante</h3>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Data de Criação")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TecnicasList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dataCriacao)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Perguntas Associadas a Este Quadrante</h3>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Descrição")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PerguntasList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.texto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.PerguntaImportancias[item.importancia])
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

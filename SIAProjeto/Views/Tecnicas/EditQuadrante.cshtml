@@ -1,7 +1,7 @@
 ﻿@model SIAProjeto.ViewModels.TecnicasViewModel
 
 @{
-    ViewBag.Title = "Editar Quadrante";
+    ViewBag.Title = "Editar Quadrante " + @Model.QuadrantesList.First().nome;
 }
 
 <div class="row bg-title">
@@ -10,13 +10,13 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12 col-xs-12">
-        <div class="white-box">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="white-box">
                 <div class="form-horizontal form-material">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.QuadrantesList.First().idQuadrante)
@@ -35,48 +35,55 @@
                         </div>
                     </div>
                 </div>
-            }
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="white-box">
-            <h3 class="box-title">Perguntas do Quadrante</h3>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayName("Texto")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Grau de Importância")
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var p in Model.PerguntasList)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.texto)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.importancia)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Remover Pergunta Deste Quadrante", "RemovePergunta", new { id = p.idPergunta })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title">Escolha que Perguntas deseja adicionar a este Quadrante</h3>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Texto")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Grau de Importância")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model.PerguntasList)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (Model.PerguntasQuadrantesList.SingleOrDefault(pq => pq.idPergunta == p.idPergunta) != null)
+                                        {
+                                            @Html.CheckBox(string.Concat("pergunta", p.idPergunta), true, new { htmlAttributes = new { @class = "form-control" } });
+                                        }
+                                        else
+                                        {
+                                            @Html.CheckBox(string.Concat("pergunta", p.idPergunta), false, new { htmlAttributes = new { @class = "form-control" } });
+                                        }
+                                        &emsp;
+                                        @Html.DisplayFor(modelItem => p.texto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.PerguntaImportancias[p.importancia])
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

@@ -13,10 +13,11 @@
 <div class="row">
     <div class="col-md-12 col-xs-12">
         <div class="white-box">
+            <h3 class="box-title">Tem a certeza que deseja eliminar este tipo de utilizador?</h3>
+
             <div class="form-horizontal form-material">
-                <h3 class="box-title">Tem a certeza que deseja eliminar este tipo de utilizador?</h3>
                 <div class="form-group">
-                    <label class="col-md-12">Nome</label>
+                    <label class="col-md-12">@Html.DisplayName("Nome")</label>
                     <div class="col-md-12">
                         @Html.DisplayFor(model => model.TipoUtilizador.nome)
                     </div>
@@ -39,6 +40,7 @@
     <div class="col-sm-12">
         <div class="white-box">
             <h3 class="box-title">Permissões Concedidas</h3>
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -49,7 +51,6 @@
                             <th>
                                 @Html.DisplayName("Descrição")
                             </th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

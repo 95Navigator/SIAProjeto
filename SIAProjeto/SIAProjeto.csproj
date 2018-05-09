@@ -701,18 +701,13 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Tecnicas\Index.cshtml" />
-    <Content Include="Views\Tecnicas\EditTecnica.cshtml" />
-    <Content Include="Views\Tecnicas\DetalhesTecnicas.cshtml" />
-    <Content Include="Views\Tecnicas\DeleteTecnica.cshtml" />
+    <Content Include="Views\Tecnicas\Edit.cshtml" />
     <Content Include="Views\Tecnicas\NotFound.cshtml" />
-    <Content Include="Views\Tecnicas\ListQuadrantes.cshtml" />
-    <Content Include="Views\Tecnicas\ListPerguntas.cshtml" />
     <Content Include="Views\TiposUtilizador\Create.cshtml" />
     <Content Include="Views\TiposUtilizador\Delete.cshtml" />
     <Content Include="Views\TiposUtilizador\Details.cshtml" />
     <Content Include="Views\TiposUtilizador\Edit.cshtml" />
     <Content Include="Views\TiposUtilizador\Index.cshtml" />
-    <Content Include="Views\Tecnicas\CriarTecnica.cshtml" />
     <Content Include="Views\User\CreateTeste.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Testes\Index.cshtml" />
@@ -720,6 +715,10 @@
     <Content Include="Views\Tecnicas\EditQuadrante.cshtml" />
     <Content Include="Views\Tecnicas\EditPergunta.cshtml" />
     <Content Include="Views\Tecnicas\DeletePergunta.cshtml" />
+    <Content Include="Views\Tecnicas\CreatePergunta.cshtml" />
+    <Content Include="Views\Tecnicas\DeleteQuadrante.cshtml" />
+    <Content Include="Views\Tecnicas\CreateQuadrante.cshtml" />
+    <Content Include="Views\Tecnicas\DetailsQuadrante.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

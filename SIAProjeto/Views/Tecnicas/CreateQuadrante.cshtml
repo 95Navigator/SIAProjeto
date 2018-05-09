@@ -1,0 +1,81 @@
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
+
+@{
+    ViewBag.Title = "Novo Quadrante";
+}
+
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Novo Quadrante</h4>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="white-box">
+                <div class="form-horizontal form-material">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.Label("Nome", htmlAttributes: new { @class = "col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.QuadrantesList.First().nome, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                            @Html.ValidationMessageFor(model => model.QuadrantesList.First().nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="submit" value="Criar Quadrante" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Escolha que Perguntas deseja adicionar a este Quadrante</h3>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Texto")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Grau de Importância")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PerguntasList)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.CheckBox(string.Concat("pergunta", item.idPergunta), false, new { htmlAttributes = new { @class = "form-control" } })
+                                        &emsp;
+                                        @Html.DisplayFor(modelItem => item.texto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.PerguntaImportancias[item.importancia])
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

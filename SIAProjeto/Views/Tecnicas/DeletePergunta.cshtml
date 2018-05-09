@@ -1,4 +1,4 @@
-﻿@model SIAProjeto.Models.Pergunta
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
 
 @{
     ViewBag.Title = "Eliminar Pergunta";
@@ -15,34 +15,27 @@
         <div class="white-box">
             <h3 class="box-title">Tem a certeza que deseja eliminar esta pergunta?</h3>
 
-            <div>
-                <h4>ATENÇÃO: Esta pergunta vai ser eliminada permanentemente. Deseja continuar?</h4>
-                <hr />
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayName("Texto")
-                    </dt>
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Texto")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => Model.PerguntasList.First().texto)
+                    </div>
+                </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.texto)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayName("Importância")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.importancia)
-                    </dd>
-
-                </dl>
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Importância")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => Model.PerguntaImportancias[Model.PerguntasList.First().importancia])
+                    </div>
+                </div>
 
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
 
                     <div class="form-actions no-color">
-                        <input type="submit" value="Eliminar" class="btn btn-success" />
+                        <input type="submit" value="Eliminar Pergunta Permanentemente" class="btn btn-success" />
                     </div>
                 }
             </div>

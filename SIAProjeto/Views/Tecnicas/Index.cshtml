@@ -73,9 +73,9 @@
                                     @Html.DisplayFor(modelItem => item.dataCriacao)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Editar Técnica", "EditTecnica", new { id = item.idTecnica }) |
-                                    @Html.ActionLink("Detalhes da Técnica", "DetailsTecnica", new { id = item.idTecnica }) |
-                                    @Html.ActionLink("Eliminar Técnica", "DeleteTecnica", new { id = item.idTecnica })
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.idTecnica }) |
+                                    @Html.ActionLink("Detalhes", "Details", new { id = item.idTecnica }) |
+                                    @Html.ActionLink("Eliminar", "Delete", new { id = item.idTecnica })
                                 </td>
                             </tr>
                         }
@@ -83,15 +83,14 @@
                 </table>
             </div>
 
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @using (Html.BeginForm("CreateTecnica", "Tecnicas", FormMethod.Get))
+                {
+                    @Html.AntiForgeryToken()
 
-                <div class="form-actions no-color">
-                    <input type="submit" value="Ver Todas" class="btn btn-success" />
                     <input type="submit" value="Criar Nova Técnica" class="btn btn-success" />
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -117,9 +116,9 @@
                                     @Html.DisplayFor(modelItem => item.nome)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Editar Quadrante", "EditQuadrante", new { id = item.idQuadrante }) |
-                                    @Html.ActionLink("Detalhes do Quadrante", "DetailsQuadrante", new { id = item.idQuadrante }) |
-                                    @Html.ActionLink("Eliminar Quadrante", "DeleteQuadrante", new { id = item.idQuadrante })
+                                    @Html.ActionLink("Editar", "EditQuadrante", new { id = item.idQuadrante }) |
+                                    @Html.ActionLink("Detalhes", "DetailsQuadrante", new { id = item.idQuadrante }) |
+                                    @Html.ActionLink("Eliminar", "DeleteQuadrante", new { id = item.idQuadrante })
                                 </td>
                             </tr>
                         }
@@ -127,15 +126,14 @@
                 </table>
             </div>
 
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @using (Html.BeginForm("CreateQuadrante", "Tecnicas", FormMethod.Get))
+                {
+                    @Html.AntiForgeryToken()
 
-                <div class="form-actions no-color">
-                    <input type="submit" value="Ver Todos" class="btn btn-success" />
                     <input type="submit" value="Criar Novo Quadrante" class="btn btn-success" />
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -164,11 +162,11 @@
                                     @Html.DisplayFor(modelItem => item.texto)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.importancia)
+                                    @Html.DisplayFor(modelItem => Model.PerguntaImportancias[item.importancia])
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Editar Pergunta", "EditPergunta", new { id = item.idPergunta }) |
-                                    @Html.ActionLink("Eliminar Pergunta", "DeletePergunta", new { id = item.idPergunta })
+                                    @Html.ActionLink("Editar", "EditPergunta", new { id = item.idPergunta }) |
+                                    @Html.ActionLink("Eliminar", "DeletePergunta", new { id = item.idPergunta })
                                 </td>
                             </tr>
                         }
@@ -176,15 +174,14 @@
                 </table>
             </div>
 
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @using (Html.BeginForm("CreatePergunta", "Tecnicas", FormMethod.Get) )
+                {
+                    @Html.AntiForgeryToken()
 
-                <div class="form-actions no-color">
-                    <input type="submit" value="Ver Todas" class="btn btn-success" />
                     <input type="submit" value="Criar Nova Pergunta" class="btn btn-success" />
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>
