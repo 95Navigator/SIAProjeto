@@ -1,0 +1,45 @@
+﻿@model SIAProjeto.ViewModels.TecnicasViewModel
+
+@{
+    ViewBag.Title = "Eliminar Técnica " + Model.TecnicasList.First().nome;
+}
+
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Eliminar Técnica @Model.TecnicasList.First().nome</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <h3 class="box-title">Tem a certeza que deseja eliminar permanentemente esta técnica?</h3>
+
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Nome")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.TecnicasList.First().nome)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Data de Criação")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.TecnicasList.First().dataCriacao)
+                    </div>
+                </div>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Eliminar" class="btn btn-success" />
+                        @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

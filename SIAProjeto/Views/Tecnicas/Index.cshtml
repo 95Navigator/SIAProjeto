@@ -16,7 +16,7 @@
             <h3 class="box-title">Total de Técnicas Criadas</h3>
             <ul class="list-inline two-part">
                 <li>
-                    <div id="sparklinedash"></div>
+                    @*<div id="sparklinedash"></div>*@
                 </li>
                 <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">@Model.TecnicasList.Count</span></li>
             </ul>
@@ -27,7 +27,7 @@
             <h3 class="box-title">Total de Quadrantes Criados</h3>
             <ul class="list-inline two-part">
                 <li>
-                    <div id="sparklinedash2"></div>
+                    @*<div id="sparklinedash2"></div>*@
                 </li>
                 <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">@Model.QuadrantesList.Count</span></li>
             </ul>
@@ -38,7 +38,7 @@
             <h3 class="box-title">Total de Perguntas Criadas</h3>
             <ul class="list-inline two-part">
                 <li>
-                    <div id="sparklinedash3"></div>
+                    @*<div id="sparklinedash3"></div>*@
                 </li>
                 <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">@Model.PerguntasList.Count</span></li>
             </ul>
@@ -84,12 +84,7 @@
             </div>
 
             <div class="form-actions no-color">
-                @using (Html.BeginForm("CreateTecnica", "Tecnicas", FormMethod.Get))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <input type="submit" value="Criar Nova Técnica" class="btn btn-success" />
-                }
+                @Html.ActionLink("Nova Técnica", "Create", new { }, new { @class = "btn btn-success" })
             </div>
         </div>
     </div>
@@ -127,12 +122,7 @@
             </div>
 
             <div class="form-actions no-color">
-                @using (Html.BeginForm("CreateQuadrante", "Tecnicas", FormMethod.Get))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <input type="submit" value="Criar Novo Quadrante" class="btn btn-success" />
-                }
+                <a href="/Tecnicas/CreateQuadrante" class="btn btn-success">Novo Quadrante</a>
             </div>
         </div>
     </div>
@@ -175,12 +165,7 @@
             </div>
 
             <div class="form-actions no-color">
-                @using (Html.BeginForm("CreatePergunta", "Tecnicas", FormMethod.Get) )
-                {
-                    @Html.AntiForgeryToken()
-
-                    <input type="submit" value="Criar Nova Pergunta" class="btn btn-success" />
-                }
+                <a href="/Tecnicas/CreatePergunta" class="btn btn-success">Nova Pergunta</a>
             </div>
         </div>
     </div>

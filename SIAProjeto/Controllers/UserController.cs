@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using SIAProjeto.Filters;
 using SIAProjeto.Models;
+using SIAProjeto.ViewModels;
 
 namespace SIAProjeto.Controllers
 {
@@ -22,17 +23,17 @@ namespace SIAProjeto.Controllers
 
         public ActionResult Index()
         {
-            Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
+            UserViewModel indexViewModel = new UserViewModel();
 
-            ViewBag.nomeUtilizadorAutenticado = utilizadorAutenticado.nome;
+            indexViewModel.Utilizador = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"]));
+            indexViewModel.TestesList = db.Testes.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
 
-            //Retorna para a view apenas os testes realizados pelo utilizador autenticado
-            return View(db.Testes.Where(t => t.idUtilizador == utilizadorAutenticado.idUtilizador));
+            return View(indexViewModel);
         }
 
         public ActionResult Edit()
         {
-            return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])));
+            return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
         }
 
         [HttpPost]
@@ -60,7 +61,7 @@ namespace SIAProjeto.Controllers
             //Depois de associar os novos dados introduzidos a esse utiizador, submete as mudanças na base de dados
             if (ModelState.IsValid == true)
             {
-                Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"]));
+                Utilizador utilizadorAutenticado = db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"]));
 
                 utilizadorAutenticado.nome = dadosNovos["nome"];
                 utilizadorAutenticado.password = dadosNovos["password"];
@@ -71,7 +72,7 @@ namespace SIAProjeto.Controllers
             }
             else
             {
-                return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])));
+                return View(db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])));
             }
         }
 
@@ -84,7 +85,7 @@ namespace SIAProjeto.Controllers
 
             //Aqui podemos aceder diretamente ao utilizador autenticado sem problemas
             //Isto porque o nosso LoginAcionFilter já verifica se algum ID se encontra presente na sessão do browser, e se esse ID é válido
-            db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(System.Web.HttpContext.Current.Session["idUtilizadorAutenticado"])).estadoAutenticacao = false;
+            db.Utilizadors.Single(u => u.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).estadoAutenticacao = false;
 
             db.SubmitChanges();
 

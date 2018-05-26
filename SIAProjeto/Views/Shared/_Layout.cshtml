@@ -34,20 +34,6 @@
                 <div class="top-left-part" align="center">
                     <img src="~/Content/31956095_1808016972622306_2941013881394298880_n.png" alt="home" />
                 </div>
-                <!-- /Logo -->
-                @*@if (HttpContext.Current.Session["idUtilizadorAutenticado"] != null)
-                {
-                    <ul class="nav navbar-top-links navbar-right pull-right">
-                        <li>
-                            <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
-                                <input type="text" placeholder="Procurar..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
-                            </form>
-                        </li>
-                        <li>
-                            <a class="profile-pic" href="#"> <img src="~/Content/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs"></b></a>
-                        </li>
-                    </ul>
-                }*@
             </div>
             <!-- /.navbar-header -->
             <!-- /.navbar-top-links -->
@@ -72,6 +58,9 @@
                         <li>
                             <a href="/Home/Registo" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Registar nova conta</a>
                         </li>
+                        @*<li>
+                            <a href="/Home/RecuperarPassword" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Recuperar Palavra-Passe</a>
+                        </li>*@
                     }
                     else
                     {
@@ -79,10 +68,7 @@
                             <a href="/User/Index" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Página Principal</a>
                         </li>
                         <li>
-                            <a href="/Testes/Index" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Novo Teste</a>
-                        </li>
-                        <li>
-                            <a href="/User/Edit" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Editar Perfil</a>
+                            <a href="/Testes/Index" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Gerir Testes</a>
                         </li>
                         <li>
                             <a href="/Tecnicas/Index" class="waves-effect"><i class="fa fa-font fa-fw" aria-hidden="true"></i>Gerir Técnicas</a>

@@ -1,0 +1,63 @@
+﻿@model SIAProjeto.ViewModels.TestesViewModel
+
+@{
+    ViewBag.Title = "Realização de Teste";
+}
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">@Model.Teste.nome</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">@Model.Tecnica.nome - @Model.Quadrante.nome</h3>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Texto")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Importância")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Pontuação (de 0 a 10)")
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PerguntasList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.texto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.PerguntaImportancias[item.importancia] )
+                                </td>
+                                <td>
+                                    @Html.Editor("pontuacao" + item.idPergunta, new { htmlAttributes = new { @class = "form-control form-control-line" } })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Seguinte" class="btn btn-success" />
+                    @Html.ActionLink("Cancelar Teste", "Delete", new { id = Model.Teste.idTeste }, new { @class = "btn btn-danger" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

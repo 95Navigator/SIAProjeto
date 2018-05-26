@@ -2485,7 +2485,7 @@ namespace SIAProjeto.Models
 		
 		private System.DateTime _dataRealizacao;
 		
-		private int _classificacao;
+		private System.Nullable<int> _classificacao;
 		
 		private System.Data.Linq.Binary _grafico;
 		
@@ -2509,7 +2509,7 @@ namespace SIAProjeto.Models
     partial void OnnomeChanged();
     partial void OndataRealizacaoChanging(System.DateTime value);
     partial void OndataRealizacaoChanged();
-    partial void OnclassificacaoChanging(int value);
+    partial void OnclassificacaoChanging(System.Nullable<int> value);
     partial void OnclassificacaoChanged();
     partial void OngraficoChanging(System.Data.Linq.Binary value);
     partial void OngraficoChanged();
@@ -2587,8 +2587,8 @@ namespace SIAProjeto.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_classificacao", DbType="Int NOT NULL")]
-		public int classificacao
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_classificacao", DbType="Int")]
+		public System.Nullable<int> classificacao
 		{
 			get
 			{
@@ -2607,7 +2607,7 @@ namespace SIAProjeto.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_grafico", DbType="Image NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_grafico", DbType="Image", UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary grafico
 		{
 			get

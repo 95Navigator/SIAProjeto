@@ -76,6 +76,9 @@ namespace SIAProjeto.Controllers
                     {
                         Session["idUtilizadorAutenticado"] = auxUtilizador.idUtilizador;
 
+                        //Define o timeout da sessão para 120 minutos
+                        Session.Timeout = 120;
+
                         auxUtilizador.estadoAutenticacao = true;
                         auxUtilizador.dataUltimaAutenticacao = DateTime.Now;
 
@@ -201,6 +204,17 @@ namespace SIAProjeto.Controllers
             db.SubmitChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RecuperarPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RecuperarPassword(FormCollection dadosRecuperacao)
+        {
+            return View();
         }
     }
 }

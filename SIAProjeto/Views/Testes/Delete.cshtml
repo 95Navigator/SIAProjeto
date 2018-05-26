@@ -1,0 +1,59 @@
+﻿@model SIAProjeto.Models.Teste
+
+@{
+    ViewBag.Title = "Eliminar Teste";
+}
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Eliminar Teste</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Tem a certeza que deseja eliminar permanentemente este teste?</h3>
+
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Nome")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.nome)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Data de Realização")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.dataRealizacao)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Classificação")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.classificacao)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Técnica Usada")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.idTecnica)
+                    </div>
+                </div>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Eliminar" class="btn btn-success" />
+                        @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-danger" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

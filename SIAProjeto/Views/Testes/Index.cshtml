@@ -1,57 +1,91 @@
 ﻿@model IEnumerable<SIAProjeto.Models.Teste>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Gestor de Testes";
 }
 
-<h2>Index</h2>
+<div class="row bg-title">
+    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Gestor de Testes</h4>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dataRealizacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.classificacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.idUtilizador)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.idTecnica)
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-12 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total de Testes Realizados</h3>
+            <ul class="list-inline two-part">
+                <li>
+                    @*<div id="sparklinedash"></div>*@
+                </li>
+                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">@Model.Count()</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dataRealizacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.classificacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idUtilizador)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idTecnica)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idTeste }) |
-            @Html.ActionLink("Details", "Details", new { id=item.idTeste }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.idTeste })
-        </td>
-    </tr>
-}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Testes Recentemente Realizados</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Nome")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Data de Realização")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Classificação")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Técnica Usada")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() == 0)
+                        {
+                            <tr>
+                                <td>Não foi realizado nenhum teste.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.dataRealizacao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.classificacao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idTecnica)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Editar", "Edit", new { id = item.idTeste }) |
+                                        @Html.ActionLink("Detalhes", "Details", new { id = item.idTeste }) |
+                                        @Html.ActionLink("Eliminar", "Delete", new { id = item.idTeste })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-</table>
+            <div class="form-actions no-color">
+                @Html.ActionLink("Realizar Novo Teste", "Create", new { }, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+</div>

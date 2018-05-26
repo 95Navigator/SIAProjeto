@@ -31,7 +31,8 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="submit" value="Guardar Técnica" class="btn btn-success" />
+                            <input type="submit" value="Guardar" class="btn btn-success" />
+                            <a href="/Tecnicas/Index" class="btn btn-danger">Cancelar</a>
                         </div>
                     </div>
                 </div>
@@ -41,11 +42,11 @@
 </div>
 
 <div class="row">
-    @foreach (var q in Model.QuadrantesList)
+    @foreach (var qt in Model.QuadrantesTecnicaList)
     {
         <div class="col-sm-6">
             <div class="white-box">
-                <h3 class="box-title">Quadrante @Html.DisplayName(q.nome)</h3>
+                <h3 class="box-title">Quadrante @Html.DisplayName(Model.QuadrantesList.Single(q => q.idQuadrante == qt.idQuadrante).nome)</h3>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -59,14 +60,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var pq in Model.PerguntasQuadrantesList.Where(pq => pq.idQuadrante == q.idQuadrante))
+                            @foreach (var pq in Model.PerguntasQuadrantesList.Where(pq => pq.idQuadrante == qt.idQuadrante))
                             {
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => Model.PerguntasList.Single(p => p.idPergunta == pq.idPergunta).texto)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => Model.PerguntasList.Single(p => p.idPergunta == pq.idPergunta).importancia)
+                                        @Html.DisplayFor(modelItem => Model.PerguntaImportancias[Model.PerguntasList.Single(p => p.idPergunta == pq.idPergunta).importancia])
                                     </td>
                                 </tr>
                             }
@@ -74,11 +75,74 @@
                     </table>
                 </div>
 
-                <div class="form-actions no-color">
-                    @Html.ActionLink("Remover Quadrante Desta Técnica", "RemoveQuadrante", new { id = Model.QuadrantesTecnicaList.Single(qt => qt.idQuadrante == q.idQuadrante).idQuadrante_Tecnica })
-                </div>
+                @using (Html.BeginForm("RemoveQuadrante", "Tecnicas", new { id = qt.idQuadrante_Tecnica }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Remover" class="btn btn-danger" />
+                    </div>
+                }
             </div>
         </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Escolha que Quadrantes deseja adicionar a esta Técnica</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var q in Model.QuadrantesList)
+    {
+        if (Model.QuadrantesTecnicaList.SingleOrDefault(qt => qt.idQuadrante == q.idQuadrante) == null)
+        {
+            <div class="col-sm-6">
+                <div class="white-box">
+                    <h3 class="box-title">Quadrante @Html.DisplayName(q.nome)</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Texto")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Grau de Importância")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pq in Model.PerguntasQuadrantesList.Where(pq => pq.idQuadrante == q.idQuadrante))
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.PerguntasList.Single(p => p.idPergunta == pq.idPergunta).texto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.PerguntaImportancias[Model.PerguntasList.Single(p => p.idPergunta == pq.idPergunta).importancia])
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @using (Html.BeginForm("AddQuadrante", "Tecnicas", new { idTecnica = Model.TecnicasList.First().idTecnica, idQuadrante = q.idQuadrante }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Adicionar" class="btn btn-success" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     }
 </div>
 

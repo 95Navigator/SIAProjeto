@@ -28,9 +28,9 @@ namespace SIAProjeto.Controllers
         {
             TecnicasViewModel indexViewModel = new TecnicasViewModel();
 
-            indexViewModel.TecnicasList = db.Tecnicas.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).Take(5).ToList();
-            indexViewModel.QuadrantesList = db.Quadrantes.Where(q => q.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).Take(5).ToList();
-            indexViewModel.PerguntasList = db.Perguntas.Where(p => p.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).Take(5).ToList();
+            indexViewModel.TecnicasList = db.Tecnicas.Where(t => t.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
+            indexViewModel.QuadrantesList = db.Quadrantes.Where(q => q.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
+            indexViewModel.PerguntasList = db.Perguntas.Where(p => p.idUtilizador == Convert.ToInt32(Session["idUtilizadorAutenticado"])).ToList();
 
             return View(indexViewModel);
         }
@@ -76,9 +76,11 @@ namespace SIAProjeto.Controllers
 
         public ActionResult Details(int id)
         {
-            //apresenta o ecra dos quadrantes com um botao para listar as perguntas 
-            //retornar para a view a tecnica, cujo o id é "id"; 
-            return View(db.Tecnicas.Single(t => t.idTecnica == id));
+            TecnicasViewModel detailsViewModel = new TecnicasViewModel();
+
+            detailsViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
+
+            return View(detailsViewModel);
         }
 
         public ActionResult Edit(int id)
@@ -87,29 +89,10 @@ namespace SIAProjeto.Controllers
 
             //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
             editViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
-
-            //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
-            //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
             editViewModel.QuadrantesTecnicaList = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id).ToList();
-
-            foreach(Quadrante_Tecnica qt in editViewModel.QuadrantesTecnicaList)
-            {
-                editViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
-            }
-
-            //Depois, por cada quadrante da técnica, vamos buscar as suas respetivas perguntas
-            //Primeiro obtemos as relações de cada quadrante - depois obtemos as próprias perguntas pertencentes a cada quadrante da técnica
-            foreach(Quadrante q in editViewModel.QuadrantesList)
-            {
-                List<Pergunta_Quadrante> perguntasQuadranteList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == q.idQuadrante).ToList();
-
-                editViewModel.PerguntasQuadrantesList.AddRange(perguntasQuadranteList);
-
-                foreach(Pergunta_Quadrante pq in perguntasQuadranteList)
-                {
-                    editViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
-                }
-            }        
+            editViewModel.QuadrantesList = db.Quadrantes.ToList();
+            editViewModel.PerguntasQuadrantesList = db.Pergunta_Quadrantes.ToList();
+            editViewModel.PerguntasList = db.Perguntas.ToList();   
 
             return View(editViewModel);
         }
@@ -141,42 +124,34 @@ namespace SIAProjeto.Controllers
 
                 //A técnica que nós queremos é a técnica correspondente ao ID passado como parâmetro
                 editViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
-
-                //Depois vamos buscar todos os quadrnates pertencentes a essa técnica
-                //Primeiro obtemos as relações da técnica - depois obtemos os próprios quadrantes pertencentes à técnica
                 editViewModel.QuadrantesTecnicaList = db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id).ToList();
-
-                foreach (Quadrante_Tecnica qt in editViewModel.QuadrantesTecnicaList)
-                {
-                    editViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
-                }
-
-                //Depois, por cada quadrante da técnica, vamos buscar as suas respetivas perguntas
-                //Primeiro obtemos as relações de cada quadrante - depois obtemos as próprias perguntas pertencentes a cada quadrante da técnica
-                foreach (Quadrante q in editViewModel.QuadrantesList)
-                {
-                    List<Pergunta_Quadrante> perguntasQuadranteList = db.Pergunta_Quadrantes.Where(pq => pq.idQuadrante == q.idQuadrante).ToList();
-
-                    editViewModel.PerguntasQuadrantesList.AddRange(perguntasQuadranteList);
-
-                    foreach (Pergunta_Quadrante pq in perguntasQuadranteList)
-                    {
-                        editViewModel.PerguntasList.Add(db.Perguntas.Single(p => p.idPergunta == pq.idPergunta));
-                    }
-                }
+                editViewModel.QuadrantesList = db.Quadrantes.ToList();
+                editViewModel.PerguntasQuadrantesList = db.Pergunta_Quadrantes.ToList();
+                editViewModel.PerguntasList = db.Perguntas.ToList();
 
                 return View(editViewModel);
             }
         }
 
-        public ActionResult DeleteTecnica(int id)
+        public ActionResult Delete(int id)
         {
-            return View(db.Tecnicas.Single(t => t.idTecnica == id));
+            TecnicasViewModel deleteViewModel = new TecnicasViewModel();
+
+            deleteViewModel.TecnicasList.Add(db.Tecnicas.Single(t => t.idTecnica == id));
+            deleteViewModel.QuadrantesTecnicaList.AddRange(db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id));
+
+            foreach(Quadrante_Tecnica qt in deleteViewModel.QuadrantesTecnicaList)
+            {
+                deleteViewModel.QuadrantesList.Add(db.Quadrantes.Single(q => q.idQuadrante == qt.idQuadrante));
+            }
+
+            return View(deleteViewModel);
         }
 
         [HttpPost]
-        public ActionResult DeleteTecnica(FormCollection fake, int id)
+        public ActionResult Delete(FormCollection dummy, int id)
         {
+            db.Quadrante_Tecnicas.DeleteAllOnSubmit(db.Quadrante_Tecnicas.Where(qt => qt.idTecnica == id));
             db.Tecnicas.DeleteOnSubmit(db.Tecnicas.Single(t => t.idTecnica == id));
             db.SubmitChanges();
 
@@ -350,7 +325,7 @@ namespace SIAProjeto.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteQuadrante(FormCollection fake, int id)
+        public ActionResult DeleteQuadrante(FormCollection dummy, int id)
         {
             //Primeiro eliminamos todas as relações quadrante-técnica e pergunta-quadrante correspondentes a este quadrante
             //Só depois é que eliminamos o próprio quadrante da base de dados
@@ -362,14 +337,33 @@ namespace SIAProjeto.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult AddQuadrante(int idTecnica, int idQuadrante)
+        {
+            Quadrante_Tecnica newQuadranteTecnica = new Quadrante_Tecnica();
+
+            newQuadranteTecnica.idTecnica = idTecnica;
+            newQuadranteTecnica.idQuadrante = idQuadrante;
+
+            db.Quadrante_Tecnicas.InsertOnSubmit(newQuadranteTecnica);
+            db.SubmitChanges();
+
+            return RedirectToAction("Edit", new { id = idTecnica });
+        }
+
+        [HttpPost]
         public ActionResult RemoveQuadrante(int id)
         {
             //Neste caso, como só queremos remover o quadrante da técnica (e não eliminá-lo da base de dados), obtemos a relação quadrante-técnica correspondente
             //Depois de obtida, eliminamos essa mesma relação da base de dados
-            db.Quadrante_Tecnicas.DeleteOnSubmit(db.Quadrante_Tecnicas.Single(qt => qt.idQuadrante_Tecnica == id));
+            Quadrante_Tecnica removeQuadranteTecnica = db.Quadrante_Tecnicas.Single(qt => qt.idQuadrante_Tecnica == id);
+
+            int removeQuadranteTecnicaIDTecnica = removeQuadranteTecnica.idTecnica;
+
+            db.Quadrante_Tecnicas.DeleteOnSubmit(removeQuadranteTecnica);
             db.SubmitChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", new { id = removeQuadranteTecnicaIDTecnica });
         }
         #endregion
 
@@ -456,7 +450,7 @@ namespace SIAProjeto.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeletePergunta(FormCollection fake, int id)
+        public ActionResult DeletePergunta(FormCollection dummy, int id)
         {
             //Primeiro eliminamos todas as relações pergunta-quadrante correspondentes a esta pergunta
             //Só depois é que eliminamos a própria pergunta da base de dados
@@ -467,14 +461,31 @@ namespace SIAProjeto.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult AddPergunta(int idQuadrante, int idPergunta)
+        {
+            Pergunta_Quadrante newPerguntaQuadrante = new Pergunta_Quadrante();
+
+            newPerguntaQuadrante.idQuadrante = idQuadrante;
+            newPerguntaQuadrante.idPergunta = idPergunta;
+
+            db.Pergunta_Quadrantes.InsertOnSubmit(newPerguntaQuadrante);
+            db.SubmitChanges();
+
+            return RedirectToAction("EditQuadrante", new { id = idQuadrante });
+        }
+
         public ActionResult RemovePergunta(int id)
         {
             //Neste caso, como só queremos remover a pergunta do quadrante (e não eliminá-la da base de dados), obtemos a relação pergunta-quadrante correspondente
             //Depois de obtida, eliminamos essa mesma relação da base de dados
-            db.Pergunta_Quadrantes.DeleteOnSubmit(db.Pergunta_Quadrantes.Single(pq => pq.idPergunta_Quadrante == id));
+            Pergunta_Quadrante removePerguntaQuadrante = db.Pergunta_Quadrantes.Single(pq => pq.idPergunta_Quadrante == id);
+
+            int removePerguntaQuadranteIDQuadrante = removePerguntaQuadrante.idQuadrante;
+
+            db.Pergunta_Quadrantes.DeleteOnSubmit(removePerguntaQuadrante);
             db.SubmitChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("EditQuadrante", new { id = removePerguntaQuadranteIDQuadrante });
         }
         #endregion
     }

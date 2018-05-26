@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SIAProjeto.Models.Teste>
+﻿@model SIAProjeto.ViewModels.UserViewModel
 
 @{
     ViewBag.Title = "Página Principal";
@@ -6,58 +6,30 @@
 
 <div class="row bg-title">
     <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-        <h4 class="page-title">Bem Vindo, @ViewBag.nomeUtilizadorAutenticado</h4>
+        <h4 class="page-title">Bem Vindo, @Model.Utilizador.nome</h4>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-xs-12">
+    <div class="col-sm-12">
         <div class="white-box">
-            <h3 class="box-title">Testes Recentemente Realizados</h3>
+            <h3 class="box-title">Perfil</h3>
+            <div class="form-horizontal form-material">
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("Nome")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.Utilizador.nome)
+                    </div>
+                </div>
 
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayName("Nome")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Data de Realização")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Classificação")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Técnica")
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.nome)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.dataRealizacao)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.classificacao)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.idTecnica)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Ver Detalhes", "Details", new { id = item.idTeste }) |
-                                    @Html.ActionLink("Eliminar Teste", "Delete", new { id = item.idTeste })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="form-group">
+                    <label class="col-md-12">@Html.DisplayName("E-mail")</label>
+                    <div class="col-md-12">
+                        @Html.DisplayFor(model => model.Utilizador.email)
+                    </div>
+                </div>
+
+                @Html.ActionLink("Editar Perfil", "Edit", new { }, new { @class = "btn btn-success" })
             </div>
         </div>
     </div>
